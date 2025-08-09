@@ -15,7 +15,7 @@ body{
   -webkit-tap-highlight-color: transparent;
 }
 #app{min-height:100%; display:grid; place-items:center;}
-.screen{display:none; width:100%; max-width:960px; padding:24px;}
+.screen{display:none; width:100%; max-width:960px; padding:clamp(12px, 3vw, 24px);}
 .screen.is-visible{display:block}
 .title{font-size: clamp(40px, 8vw, 64px); text-align:center; margin:32px 0 24px}
 .btn{
@@ -25,14 +25,48 @@ body{
 }
 .btn:active{transform:translateY(2px); box-shadow:0 6px 0 #0c3a25}
 .btn.primary{background:linear-gradient(180deg, var(--accent2), var(--accent));}
-.toolbar{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px}
-.score{font-size:28px; font-weight:800}
-.size-controls{display:flex; align-items:center; gap:8px}
-.size-btn{min-width:36px; padding:6px 8px; font-size:18px; font-weight:bold}
-.size-display{font-size:16px; font-weight:600; min-width:40px; text-align:center; color:#666}
-.effect-controls{display:flex; align-items:center; gap:6px}
-.effect-label{font-size:14px; font-weight:600; color:#666}
-.effect-selector{padding:4px 8px; border:1px solid #ccc; border-radius:6px; font-size:14px; background:white}
+.toolbar{
+  display:flex; align-items:center; justify-content:space-between; 
+  gap:8px; margin-bottom:12px; flex-wrap:wrap;
+}
+.score{font-size:clamp(20px, 5vw, 28px); font-weight:800}
+.size-controls{display:flex; align-items:center; gap:6px}
+.size-btn{min-width:32px; padding:4px 6px; font-size:16px; font-weight:bold}
+.size-display{font-size:14px; font-weight:600; min-width:35px; text-align:center; color:#666}
+.effect-controls{display:flex; align-items:center; gap:4px}
+.effect-label{font-size:12px; font-weight:600; color:#666}
+.effect-selector{padding:3px 6px; border:1px solid #ccc; border-radius:4px; font-size:12px; background:white}
+
+/* Mobile responsive adjustments */
+@media (max-width: 640px) {
+  .toolbar{
+    gap:6px; margin-bottom:8px;
+  }
+  .score{
+    order:1; flex:1; text-align:right;
+  }
+  .size-controls{
+    order:2; gap:4px;
+  }
+  .effect-controls{
+    order:3; gap:3px;
+  }
+  .effect-label{
+    display:none; /* Hide "Effect:" label on mobile */
+  }
+  .size-btn{
+    min-width:28px; padding:3px 5px; font-size:14px;
+  }
+  .size-display{
+    font-size:12px; min-width:30px;
+  }
+  .effect-selector{
+    padding:2px 4px; font-size:11px;
+  }
+  .btn{
+    padding:8px 12px; font-size:14px;
+  }
+}
 .play-area{
   position:relative; height:72vh; min-height:480px; border-radius:24px;
   background: radial-gradient(1200px 400px at 50% 100%, #b3ffcc 0, #e9ffe9 60%, transparent 100%),
