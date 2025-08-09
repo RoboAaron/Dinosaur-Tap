@@ -366,15 +366,29 @@
   btnSizeDown.addEventListener('click', decreaseDinoSize);
 
   // Effect selector handler
-  effectSelector.addEventListener('change', (e) => {
-    currentEffect = e.target.value;
-  });
+  if (effectSelector) {
+    effectSelector.addEventListener('change', (e) => {
+      currentEffect = e.target.value;
+      console.log('Effect changed to:', currentEffect);
+    });
+  } else {
+    console.error('Effect selector element not found');
+  }
 
   // Prevent iOS rubber-band within play area
   playArea.addEventListener('touchmove', (e)=>{ e.preventDefault(); }, {passive:false});
 
   // Initialize size display
   updateDinoSizes();
+
+  // Debug effect selector
+  console.log('Effect selector element:', effectSelector);
+  console.log('Initial effect:', currentEffect);
+  
+  // Ensure selector shows current effect
+  if (effectSelector) {
+    effectSelector.value = currentEffect;
+  }
 
   // Start at home
   showScreen('home');
