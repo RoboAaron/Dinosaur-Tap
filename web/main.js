@@ -9,6 +9,7 @@
   let watchdog = null;
   let activeDinos = 0;
   let centerDino = null;
+  let dinoSizeScale = 1.0; // Current size multiplier
 
   // Elements
   const homeScreen = document.getElementById('screen-home');
@@ -18,6 +19,9 @@
   const btnHome = document.getElementById('btn-home');
   const starCounter = document.getElementById('stars');
   const playArea = document.getElementById('play-area');
+  const btnSizeUp = document.getElementById('btn-size-up');
+  const btnSizeDown = document.getElementById('btn-size-down');
+  const sizeDisplay = document.getElementById('size-display');
   let dinoElements = Array.from(document.querySelectorAll('.dino-static'));
 
   // Config
@@ -103,6 +107,26 @@
     const ny = Math.min(Math.max(y / window.innerHeight, 0), 1);
     confetti({ particleCount: 36, spread: 55, startVelocity: 45, origin: { x: nx, y: ny }, scalar: 0.9 });
     setTimeout(() => confetti({ particleCount: 20, spread: 75, origin: { x: nx, y: ny }, decay: 0.92, scalar: 0.8 }), 60);
+  }
+
+  // Size control functions
+  function updateDinoSizes() {
+    dinoElements.forEach(dino => {
+      dino.style.transform = `translate(-50%, -50%) scale(${dinoSizeScale})`;
+    });
+    sizeDisplay.textContent = `${dinoSizeScale.toFixed(1)}x`;
+  }
+
+  function increaseDinoSize() {
+    dinoSizeScale += 0.5;
+    updateDinoSizes();
+  }
+
+  function decreaseDinoSize() {
+    if (dinoSizeScale > 0.5) {
+      dinoSizeScale -= 0.5;
+      updateDinoSizes();
+    }
   }
 
   function startGame() {
@@ -256,8 +280,15 @@
   });
   btnHome.addEventListener('click', () => { stopGame(); showScreen('home'); });
 
+  // Size control handlers
+  btnSizeUp.addEventListener('click', increaseDinoSize);
+  btnSizeDown.addEventListener('click', decreaseDinoSize);
+
   // Prevent iOS rubber-band within play area
   playArea.addEventListener('touchmove', (e)=>{ e.preventDefault(); }, {passive:false});
+
+  // Initialize size display
+  updateDinoSizes();
 
   // Start at home
   showScreen('home');
