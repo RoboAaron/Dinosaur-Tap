@@ -10,6 +10,7 @@
   let activeDinos = 0;
   let centerDino = null;
   let dinoSizeScale = 1.0; // Current size multiplier
+  let currentEffect = 'confetti'; // Current celebration effect
 
   // Elements
   const homeScreen = document.getElementById('screen-home');
@@ -22,6 +23,7 @@
   const btnSizeUp = document.getElementById('btn-size-up');
   const btnSizeDown = document.getElementById('btn-size-down');
   const sizeDisplay = document.getElementById('size-display');
+  const effectSelector = document.getElementById('effect-selector');
   let dinoElements = Array.from(document.querySelectorAll('.dino-static'));
 
   // Config
@@ -101,12 +103,58 @@
     return { x: innerWidth/2, y: innerHeight/2 };
   }
 
-  function celebrateConfettiAt(x, y){
-    if (typeof confetti !== 'function') return;
-    const nx = Math.min(Math.max(x / window.innerWidth, 0), 1);
-    const ny = Math.min(Math.max(y / window.innerHeight, 0), 1);
-    confetti({ particleCount: 36, spread: 55, startVelocity: 45, origin: { x: nx, y: ny }, scalar: 0.9 });
-    setTimeout(() => confetti({ particleCount: 20, spread: 75, origin: { x: nx, y: ny }, decay: 0.92, scalar: 0.8 }), 60);
+  // Celebration effects registry
+  const celebrationEffects = {
+    confetti: function(x, y) {
+      if (typeof confetti !== 'function') return;
+      const nx = Math.min(Math.max(x / window.innerWidth, 0), 1);
+      const ny = Math.min(Math.max(y / window.innerHeight, 0), 1);
+      confetti({ particleCount: 36, spread: 55, startVelocity: 45, origin: { x: nx, y: ny }, scalar: 0.9 });
+      setTimeout(() => confetti({ particleCount: 20, spread: 75, origin: { x: nx, y: ny }, decay: 0.92, scalar: 0.8 }), 60);
+    },
+    
+    ring: function(x, y) {
+      const ring = document.createElement('div');
+      ring.className = 'celebration-ring';
+      ring.style.left = x + 'px';
+      ring.style.top = y + 'px';
+      document.body.appendChild(ring);
+      setTimeout(() => ring.remove(), 800);
+    },
+    
+    sparkles: function(x, y) {
+      for (let i = 0; i < 8; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'celebration-sparkle';
+        const driftX = (Math.random() - 0.5) * 80; // -40px to +40px
+        const driftY = -30 - (Math.random() * 40); // -30px to -70px
+        sparkle.style.left = x + 'px';
+        sparkle.style.top = y + 'px';
+        sparkle.style.setProperty('--drift-x', driftX + 'px');
+        sparkle.style.setProperty('--drift-y', driftY + 'px');
+        sparkle.style.animationDelay = (i * 50) + 'ms';
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 1000);
+      }
+    },
+    
+    pop: function(x, y, dino) {
+      if (dino) {
+        dino.style.animation = 'celebration-pop 0.3s ease-out';
+        setTimeout(() => { dino.style.animation = ''; }, 300);
+      }
+    },
+    
+    random: function(x, y, dino) {
+      const effects = ['confetti', 'ring', 'sparkles', 'pop'];
+      const randomEffect = effects[Math.floor(Math.random() * effects.length)];
+      celebrationEffects[randomEffect](x, y, dino);
+    }
+  };
+
+  function celebrateAt(x, y, dino = null) {
+    const effect = celebrationEffects[currentEffect];
+    if (effect) effect(x, y, dino);
   }
 
   // Size control functions
@@ -243,7 +291,7 @@
     dino.dataset.lastTapTs = String(now);
     // celebrate at tap point
     const pt = getTapPoint(e, dino);
-    celebrateConfettiAt(pt.x, pt.y);
+    celebrateAt(pt.x, pt.y, dino);
     
     grantStar();
     hideDino(dino);
@@ -283,6 +331,11 @@
   // Size control handlers
   btnSizeUp.addEventListener('click', increaseDinoSize);
   btnSizeDown.addEventListener('click', decreaseDinoSize);
+
+  // Effect selector handler
+  effectSelector.addEventListener('change', (e) => {
+    currentEffect = e.target.value;
+  });
 
   // Prevent iOS rubber-band within play area
   playArea.addEventListener('touchmove', (e)=>{ e.preventDefault(); }, {passive:false});

@@ -30,6 +30,9 @@ body{
 .size-controls{display:flex; align-items:center; gap:8px}
 .size-btn{min-width:36px; padding:6px 8px; font-size:18px; font-weight:bold}
 .size-display{font-size:16px; font-weight:600; min-width:40px; text-align:center; color:#666}
+.effect-controls{display:flex; align-items:center; gap:6px}
+.effect-label{font-size:14px; font-weight:600; color:#666}
+.effect-selector{padding:4px 8px; border:1px solid #ccc; border-radius:6px; font-size:14px; background:white}
 .play-area{
   position:relative; height:72vh; min-height:480px; border-radius:24px;
   background: radial-gradient(1200px 400px at 50% 100%, #b3ffcc 0, #e9ffe9 60%, transparent 100%),
@@ -119,4 +122,56 @@ body{
 }
 .dino-static:active{
   transform: translate(-50%, -50%) scale(0.95);
+}
+
+/* Celebration animations */
+.celebration-ring {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #34c759;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1000;
+  animation: celebration-ring-expand 0.8s ease-out forwards;
+}
+
+@keyframes celebration-ring-expand {
+  0% { width: 20px; height: 20px; opacity: 1; border-width: 3px; }
+  100% { width: 120px; height: 120px; opacity: 0; border-width: 1px; }
+}
+
+.celebration-sparkle {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, #ffd700 0%, #ff6b35 100%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1000;
+  animation: celebration-sparkle-drift 1s ease-out forwards;
+}
+
+@keyframes celebration-sparkle-drift {
+  0% { 
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% { 
+    transform: translate(-50%, -50%) translate(var(--drift-x, 40px), var(--drift-y, -60px)) scale(0);
+    opacity: 0;
+  }
+}
+
+.celebration-sparkle:nth-child(odd) { --drift-x: -30px; --drift-y: -40px; }
+.celebration-sparkle:nth-child(even) { --drift-x: 35px; --drift-y: -50px; }
+.celebration-sparkle:nth-child(3n) { --drift-x: -20px; --drift-y: -70px; }
+.celebration-sparkle:nth-child(4n) { --drift-x: 45px; --drift-y: -35px; }
+
+@keyframes celebration-pop {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.3); filter: brightness(1.5); }
+  100% { transform: translate(-50%, -50%) scale(1); filter: brightness(1); }
 }
