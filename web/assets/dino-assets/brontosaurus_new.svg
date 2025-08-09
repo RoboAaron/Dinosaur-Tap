@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img">
+  <title>Brontosaurus</title>
+  
+  <!-- ground shadow -->
+  <ellipse cx="64" cy="120" rx="35" ry="4" fill="#000" opacity="0.15"/>
+  
+  <!-- main body -->
+  <ellipse cx="70" cy="85" rx="28" ry="18" fill="#4ECDC4" stroke="#333" stroke-width="3"/>
+  
+  <!-- long neck -->
+  <ellipse cx="45" cy="65" rx="8" ry="25" fill="#F4D03F" stroke="#333" stroke-width="3"/>
+  
+  <!-- head -->
+  <ellipse cx="40" cy="45" rx="12" ry="10" fill="#F4D03F" stroke="#333" stroke-width="3"/>
+  
+  <!-- eye -->
+  <circle cx="42" cy="42" r="3" fill="#333"/>
+  <circle cx="43" cy="41" r="1" fill="#fff"/>
+  
+  <!-- nostrils -->
+  <ellipse cx="36" cy="45" rx="1.5" ry="1" fill="#333"/>
+  
+  <!-- belly accent -->
+  <ellipse cx="70" cy="90" rx="22" ry="12" fill="#F4D03F"/>
+  
+  <!-- legs -->
+  <ellipse cx="55" cy="100" rx="6" ry="12" fill="#C8E6C9" stroke="#333" stroke-width="3"/>
+  <ellipse cx="70" cy="100" rx="6" ry="12" fill="#C8E6C9" stroke="#333" stroke-width="3"/>
+  <ellipse cx="85" cy="100" rx="6" ry="12" fill="#C8E6C9" stroke="#333" stroke-width="3"/>
+  <ellipse cx="100" cy="100" rx="6" ry="12" fill="#C8E6C9" stroke="#333" stroke-width="3"/>
+  
+  <!-- feet -->
+  <ellipse cx="55" cy="112" rx="8" ry="4" fill="#FF6B6B" stroke="#333" stroke-width="2"/>
+  <ellipse cx="70" cy="112" rx="8" ry="4" fill="#FF6B6B" stroke="#333" stroke-width="2"/>
+  <ellipse cx="85" cy="112" rx="8" ry="4" fill="#FF6B6B" stroke="#333" stroke-width="2"/>
+  <ellipse cx="100" cy="112" rx="8" ry="4" fill="#FF6B6B" stroke="#333" stroke-width="2"/>
+  
+  <!-- tail -->
+  <ellipse cx="100" cy="85" rx="15" ry="8" fill="#4ECDC4" stroke="#333" stroke-width="3"/>
+  
+  <!-- decorative spots on body -->
+  <rect x="65" y="75" width="4" height="4" fill="#333" rx="1"/>
+  <rect x="75" y="80" width="4" height="4" fill="#333" rx="1"/>
+  <rect x="80" y="70" width="4" height="4" fill="#333" rx="1"/>
+</svg>

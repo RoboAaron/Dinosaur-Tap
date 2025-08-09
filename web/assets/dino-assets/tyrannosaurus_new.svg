@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img">
+  <title>Tyrannosaurus</title>
+  
+  <!-- ground shadow -->
+  <ellipse cx="64" cy="120" rx="35" ry="4" fill="#000" opacity="0.15"/>
+  
+  <!-- main body -->
+  <ellipse cx="70" cy="85" rx="25" ry="18" fill="#A8E6CF" stroke="#333" stroke-width="3"/>
+  
+  <!-- belly -->
+  <ellipse cx="70" cy="90" rx="20" ry="12" fill="#C8E6C9"/>
+  
+  <!-- large head -->
+  <ellipse cx="45" cy="70" rx="18" ry="15" fill="#A8E6CF" stroke="#333" stroke-width="3"/>
+  <ellipse cx="45" cy="73" rx="14" ry="11" fill="#C8E6C9"/>
+  
+  <!-- jaw/snout -->
+  <ellipse cx="28" cy="78" rx="12" ry="8" fill="#A8E6CF" stroke="#333" stroke-width="3"/>
+  <ellipse cx="28" cy="80" rx="9" ry="5" fill="#C8E6C9"/>
+  
+  <!-- eye -->
+  <circle cx="48" cy="68" r="3" fill="#333"/>
+  <circle cx="49" cy="67" r="1" fill="#fff"/>
+  
+  <!-- eyebrow for expression -->
+  <path d="M45 65 Q48 63 51 65" stroke="#333" stroke-width="2" fill="none"/>
+  
+  <!-- teeth -->
+  <polygon points="22,76 24,80 20,80" fill="#fff" stroke="#333" stroke-width="1"/>
+  <polygon points="26,75 28,79 24,79" fill="#fff" stroke="#333" stroke-width="1"/>
+  <polygon points="30,76 32,80 28,80" fill="#fff" stroke="#333" stroke-width="1"/>
+  <polygon points="34,75 36,79 32,79" fill="#fff" stroke="#333" stroke-width="1"/>
+  
+  <!-- small arms -->
+  <ellipse cx="58" cy="78" rx="8" ry="3" fill="#A8E6CF" stroke="#333" stroke-width="2"/>
+  <ellipse cx="56" cy="82" rx="6" ry="2" fill="#C8E6C9"/>
+  
+  <!-- claws on arms -->
+  <path d="M50 80 L48 82 L50 84" stroke="#333" stroke-width="2" fill="none"/>
+  <path d="M52 81 L50 83 L52 85" stroke="#333" stroke-width="2" fill="none"/>
+  
+  <!-- powerful legs -->
+  <ellipse cx="65" cy="102" rx="6" ry="15" fill="#A8E6CF" stroke="#333" stroke-width="3"/>
+  <ellipse cx="80" cy="102" rx="6" ry="15" fill="#A8E6CF" stroke="#333" stroke-width="3"/>
+  
+  <!-- feet -->
+  <ellipse cx="65" cy="117" rx="9" ry="4" fill="#8FBC8F" stroke="#333" stroke-width="2"/>
+  <ellipse cx="80" cy="117" rx="9" ry="4" fill="#8FBC8F" stroke="#333" stroke-width="2"/>
+  
+  <!-- claws on feet -->
+  <polygon points="60,115 62,119 58,119" fill="#333"/>
+  <polygon points="70,115 72,119 68,119" fill="#333"/>
+  <polygon points="75,115 77,119 73,119" fill="#333"/>
+  <polygon points="85,115 87,119 83,119" fill="#333"/>
+  
+  <!-- long tail -->
+  <ellipse cx="95" cy="88" rx="18" ry="8" fill="#A8E6CF" stroke="#333" stroke-width="3"/>
+  <ellipse cx="110" cy="92" rx="12" ry="5" fill="#A8E6CF" stroke="#333" stroke-width="3"/>
+</svg>

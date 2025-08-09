@@ -1,0 +1,119 @@
+:root{
+  --bg:#f2fff2;
+  --fg:#063a1e;
+  --accent:#34c759;
+  --accent2:#40c4ff;
+  --btn:#1e6f4a;
+  --btn-text:#fff;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background:linear-gradient(180deg, #e9ffe9, #ccffdd);
+  color:var(--fg);
+  -webkit-tap-highlight-color: transparent;
+}
+#app{min-height:100%; display:grid; place-items:center;}
+.screen{display:none; width:100%; max-width:960px; padding:24px;}
+.screen.is-visible{display:block}
+.title{font-size: clamp(40px, 8vw, 64px); text-align:center; margin:32px 0 24px}
+.btn{
+  appearance:none; border:none; border-radius:20px; padding:22px 28px; font-size:28px; font-weight:700;
+  background:var(--btn); color:var(--btn-text); width:100%; max-width:420px; display:block; margin:16px auto;
+  box-shadow:0 8px 0 #0c3a25; cursor:pointer; touch-action:manipulation;
+}
+.btn:active{transform:translateY(2px); box-shadow:0 6px 0 #0c3a25}
+.btn.primary{background:linear-gradient(180deg, var(--accent2), var(--accent));}
+.toolbar{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px}
+.score{font-size:28px; font-weight:800}
+.play-area{
+  position:relative; height:72vh; min-height:480px; border-radius:24px;
+  background: radial-gradient(1200px 400px at 50% 100%, #b3ffcc 0, #e9ffe9 60%, transparent 100%),
+              linear-gradient(180deg, #d6ffe8 0, #f6fff8 100%);
+  overflow:hidden; display:grid; place-items:center; user-select:none;
+}
+.hint{position:absolute; top:12px; left:12px; font-size:20px; opacity:.75}
+.dino{font-size:120px; filter: drop-shadow(0 6px 0 rgba(0,0,0,.12)); transform: translateZ(0);}
+
+@media (hover:hover){
+  .dino:hover{transform:scale(1.04)}
+}
+
+@keyframes pop {
+  0% { transform: scale(.8); opacity: .0 }
+  100% { transform: scale(1); opacity: 1 }
+}
+.pop{animation: pop 180ms ease-out}
+
+/* Spawned dinos */
+.dino-spawn{
+  position:absolute;
+  font-size: clamp(64px, 14vw, 120px);
+  line-height:1; will-change: transform, opacity;
+  transform: translate(-50%, -50%) scale(0.85);
+  transition: transform 160ms ease-out, opacity 200ms ease-out;
+  opacity: 0;
+  z-index: 1;
+  text-shadow: 0 3px 0 rgba(0,0,0,.18), 0 0 6px rgba(0,0,0,.20);
+}
+.dino-spawn.show{ transform: translate(-50%, -50%) scale(1); opacity:1 }
+.dino-spawn.hide{ opacity:0.0; transform: translate(-50%, -60%) scale(0.9) }
+
+/* Friendly tap feedback */
+.dino-spawn:active{ transform: translate(-50%, -50%) scale(0.96) }
+
+/* Always-visible center dino during gameplay */
+.dino-center{
+  position:absolute; left:50%; top:56%; transform: translate(-50%, -50%);
+  z-index: 0; user-select:none; opacity:.95;
+}
+
+/* Visual dino bubble (emoji-independent) */
+.dino-bubble{
+  width: clamp(84px, 18vw, 140px);
+  height: clamp(84px, 18vw, 140px);
+  border-radius: 50%;
+  background: radial-gradient(120% 120% at 30% 30%, #6ee7b7 0%, #34c759 60%, #1b8f56 100%);
+  box-shadow: 0 10px 0 rgba(0,0,0,.12);
+  position: relative;
+}
+.dino-bubble::before, .dino-bubble::after{
+  content:""; position:absolute; top:32%; width:14%; height:14%;
+  background: #fff; border-radius: 50%; box-shadow: 0 1px 0 rgba(0,0,0,.2) inset;
+}
+.dino-bubble::before{ left:34% }
+.dino-bubble::after{ right:34% }
+.dino-bubble span.eye{ position:absolute; top:36%; width:6%; height:6%; background:#0b301a; border-radius:50% }
+.dino-bubble span.eye.left{ left:38% }
+.dino-bubble span.eye.right{ right:38% }
+
+/* Spawned size variant */
+.dino-spawn .dino-bubble{ width: clamp(72px, 12vw, 128px); height: clamp(72px, 12vw, 128px); }
+
+/* Static dinos - guaranteed visible */
+.dino-static{
+  position: absolute;
+  /* ~2x current size */
+  width: clamp(56px, 12vw, 112px);
+  height: auto; /* maintain aspect ratio */
+  cursor: pointer;
+  user-select: none;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 300ms ease-out, transform 200ms ease-out;
+  filter: drop-shadow(0 4px 0 rgba(0,0,0,.2));
+  object-fit: contain;
+  touch-action: manipulation;
+  will-change: transform, opacity;
+}
+.dino-static.visible{
+  opacity: 1;
+}
+.dino-static:hover{
+  transform: translate(-50%, -50%) scale(1.1);
+}
+.dino-static:active{
+  transform: translate(-50%, -50%) scale(0.95);
+}

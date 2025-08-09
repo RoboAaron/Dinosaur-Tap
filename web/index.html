@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Dino Tap!</title>
+  <link rel="preload" href="styles.css" as="style" />
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="theme-color" content="#34c759" />
+</head>
+<body>
+  <main id="app" aria-live="polite">
+    <!-- Home Screen -->
+    <section id="screen-home" class="screen is-visible" role="region" aria-label="Home Screen">
+      <h1 class="title" aria-label="Dino Tap!">🦕 Dino Tap!</h1>
+      <button id="btn-play" class="btn primary" aria-label="Play the Dino game">Play</button>
+    </section>
+
+    <!-- Play Screen -->
+    <section id="screen-play" class="screen" role="region" aria-label="Play Screen" aria-hidden="true">
+      <header class="toolbar">
+        <button id="btn-home" class="btn" aria-label="Go back to Home">Home</button>
+        <div class="score" aria-live="polite" aria-label="Stars earned">
+          ⭐ <span id="stars">0</span>
+        </div>
+      </header>
+
+      <div id="play-area" class="play-area" role="button" aria-label="Tap area">
+        <div class="hint">Tap the dino!</div>
+        <!-- Static dinos that are always in DOM -->
+        <img id="dino-1" class="dino-static" role="button" aria-label="Dinosaur" src="" />
+        <img id="dino-2" class="dino-static" role="button" aria-label="Dinosaur" src="" />
+        <img id="dino-3" class="dino-static" role="button" aria-label="Dinosaur" src="" />
+        <img id="dino-4" class="dino-static" role="button" aria-label="Dinosaur" src="" />
+        <img id="dino-5" class="dino-static" role="button" aria-label="Dinosaur" src="" />
+      </div>
+    </section>
+  </main>
+
+  <!-- Confetti library for celebration effects -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="main.js" defer></script>
+</body>
+</html>

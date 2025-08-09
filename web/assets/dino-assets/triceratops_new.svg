@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img">
+  <title>Triceratops</title>
+  
+  <!-- ground shadow -->
+  <ellipse cx="64" cy="120" rx="35" ry="4" fill="#000" opacity="0.15"/>
+  
+  <!-- main body -->
+  <ellipse cx="70" cy="85" rx="28" ry="16" fill="#B8E6B8" stroke="#333" stroke-width="3"/>
+  
+  <!-- belly -->
+  <ellipse cx="70" cy="90" rx="22" ry="12" fill="#B8E6B8"/>
+  
+  <!-- large frill -->
+  <ellipse cx="45" cy="70" rx="20" ry="16" fill="#FF8A80" stroke="#333" stroke-width="3"/>
+  
+  <!-- frill spikes -->
+  <path d="M28 60 L32 50 L36 60 Z" fill="#4ECDC4" stroke="#333" stroke-width="2"/>
+  <path d="M35 55 L40 42 L45 55 Z" fill="#4ECDC4" stroke="#333" stroke-width="2"/>
+  <path d="M42 52 L48 38 L54 52 Z" fill="#4ECDC4" stroke="#333" stroke-width="2"/>
+  <path d="M50 55 L55 42 L60 55 Z" fill="#4ECDC4" stroke="#333" stroke-width="2"/>
+  <path d="M57 60 L61 50 L65 60 Z" fill="#4ECDC4" stroke="#333" stroke-width="2"/>
+  
+  <!-- frill spots -->
+  <circle cx="40" cy="65" r="2" fill="#4ECDC4"/>
+  <circle cx="50" cy="68" r="2" fill="#4ECDC4"/>
+  <circle cx="45" cy="75" r="2" fill="#4ECDC4"/>
+  <circle cx="55" cy="72" r="2" fill="#4ECDC4"/>
+  <circle cx="35" cy="72" r="2" fill="#4ECDC4"/>
+  <circle cx="52" cy="62" r="2" fill="#4ECDC4"/>
+  <circle cx="38" cy="58" r="2" fill="#4ECDC4"/>
+  
+  <!-- head -->
+  <ellipse cx="45" cy="82" rx="14" ry="11" fill="#FF8A80" stroke="#333" stroke-width="3"/>
+  <ellipse cx="45" cy="85" rx="11" ry="8" fill="#FF8A80"/>
+  
+  <!-- three horns -->
+  <ellipse cx="38" cy="78" rx="3" ry="8" fill="#F5F5DC" stroke="#333" stroke-width="2"/>
+  <ellipse cx="52" cy="78" rx="3" ry="8" fill="#F5F5DC" stroke="#333" stroke-width="2"/>
+  <ellipse cx="45" cy="92" rx="2" ry="5" fill="#F5F5DC" stroke="#333" stroke-width="2"/>
+  
+  <!-- eyes -->
+  <circle cx="42" cy="80" r="3" fill="#333"/>
+  <circle cx="43" cy="79" r="1" fill="#fff"/>
+  <circle cx="48" cy="80" r="3" fill="#333"/>
+  <circle cx="49" cy="79" r="1" fill="#fff"/>
+  
+  <!-- nostrils -->
+  <ellipse cx="43" cy="88" rx="1" ry="0.5" fill="#333"/>
+  <ellipse cx="47" cy="88" rx="1" ry="0.5" fill="#333"/>
+  
+  <!-- white dots on frill edge -->
+  <circle cx="30" cy="65" r="1.5" fill="#fff"/>
+  <circle cx="35" cy="62" r="1.5" fill="#fff"/>
+  <circle cx="42" cy="58" r="1.5" fill="#fff"/>
+  <circle cx="48" cy="56" r="1.5" fill="#fff"/>
+  <circle cx="55" cy="58" r="1.5" fill="#fff"/>
+  <circle cx="60" cy="62" r="1.5" fill="#fff"/>
+  
+  <!-- legs -->
+  <ellipse cx="55" cy="100" rx="5" ry="12" fill="#B8E6B8" stroke="#333" stroke-width="3"/>
+  <ellipse cx="70" cy="100" rx="5" ry="12" fill="#B8E6B8" stroke="#333" stroke-width="3"/>
+  <ellipse cx="85" cy="100" rx="5" ry="12" fill="#B8E6B8" stroke="#333" stroke-width="3"/>
+  <ellipse cx="100" cy="100" rx="5" ry="12" fill="#B8E6B8" stroke="#333" stroke-width="3"/>
+  
+  <!-- feet -->
+  <ellipse cx="55" cy="112" rx="7" ry="3" fill="#8FBC8F" stroke="#333" stroke-width="2"/>
+  <ellipse cx="70" cy="112" rx="7" ry="3" fill="#8FBC8F" stroke="#333" stroke-width="2"/>
+  <ellipse cx="85" cy="112" rx="7" ry="3" fill="#8FBC8F" stroke="#333" stroke-width="2"/>
+  <ellipse cx="100" cy="112" rx="7" ry="3" fill="#8FBC8F" stroke="#333" stroke-width="2"/>
+  
+  <!-- tail -->
+  <ellipse cx="100" cy="88" rx="12" ry="6" fill="#B8E6B8" stroke="#333" stroke-width="3"/>
+</svg>
