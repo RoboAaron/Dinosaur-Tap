@@ -123,18 +123,43 @@
     },
     
     sparkles: function(x, y) {
-      for (let i = 0; i < 8; i++) {
+      const colors = [
+        { bg: 'radial-gradient(circle, #ffd700 0%, #ff6b35 100%)', glow: '#ffd700' },
+        { bg: 'radial-gradient(circle, #ff69b4 0%, #ff1493 100%)', glow: '#ff69b4' },
+        { bg: 'radial-gradient(circle, #00ffff 0%, #0080ff 100%)', glow: '#00ffff' },
+        { bg: 'radial-gradient(circle, #32cd32 0%, #228b22 100%)', glow: '#32cd32' },
+        { bg: 'radial-gradient(circle, #ff4500 0%, #dc143c 100%)', glow: '#ff4500' }
+      ];
+      
+      for (let i = 0; i < 12; i++) {
         const sparkle = document.createElement('div');
         sparkle.className = 'celebration-sparkle';
-        const driftX = (Math.random() - 0.5) * 80; // -40px to +40px
-        const driftY = -30 - (Math.random() * 40); // -30px to -70px
+        
+        // Varied movement patterns
+        const angle = (i / 12) * Math.PI * 2 + (Math.random() - 0.5) * 0.5;
+        const distance = 60 + Math.random() * 40; // 60-100px
+        const driftX = Math.cos(angle) * distance;
+        const driftY = Math.sin(angle) * distance - 20; // Slight upward bias
+        
+        // Varied sizes and colors
+        const size = 8 + Math.random() * 8; // 8-16px
+        const colorSet = colors[Math.floor(Math.random() * colors.length)];
+        const duration = 1.0 + Math.random() * 0.8; // 1.0-1.8s
+        const rotation = Math.random() * 360;
+        
         sparkle.style.left = x + 'px';
         sparkle.style.top = y + 'px';
         sparkle.style.setProperty('--drift-x', driftX + 'px');
         sparkle.style.setProperty('--drift-y', driftY + 'px');
-        sparkle.style.animationDelay = (i * 50) + 'ms';
+        sparkle.style.setProperty('--sparkle-size', size + 'px');
+        sparkle.style.setProperty('--sparkle-color', colorSet.bg);
+        sparkle.style.setProperty('--glow-color', colorSet.glow);
+        sparkle.style.setProperty('--duration', duration + 's');
+        sparkle.style.setProperty('--rotation', rotation + 'deg');
+        sparkle.style.animationDelay = (i * 40) + 'ms';
+        
         document.body.appendChild(sparkle);
-        setTimeout(() => sparkle.remove(), 1000);
+        setTimeout(() => sparkle.remove(), duration * 1000 + 200);
       }
     },
     

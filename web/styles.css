@@ -178,31 +178,53 @@ body{
 
 .celebration-sparkle {
   position: fixed;
-  width: 8px;
-  height: 8px;
-  background: radial-gradient(circle, #ffd700 0%, #ff6b35 100%);
+  width: var(--sparkle-size, 12px);
+  height: var(--sparkle-size, 12px);
+  background: var(--sparkle-color, radial-gradient(circle, #ffd700 0%, #ff6b35 100%));
   border-radius: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 1000;
-  animation: celebration-sparkle-drift 1s ease-out forwards;
+  animation: celebration-sparkle-drift var(--duration, 1.2s) ease-out forwards;
+  box-shadow: 0 0 6px var(--glow-color, #ffd700);
+}
+
+.celebration-sparkle::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--sparkle-color, #ffd700), transparent);
+  transform: translate(-50%, -50%) rotate(var(--rotation, 0deg));
+}
+
+.celebration-sparkle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 200%;
+  background: linear-gradient(0deg, transparent, var(--sparkle-color, #ffd700), transparent);
+  transform: translate(-50%, -50%) rotate(var(--rotation, 0deg));
 }
 
 @keyframes celebration-sparkle-drift {
   0% { 
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
+    opacity: 1;
+  }
+  20% { 
+    transform: translate(-50%, -50%) scale(1.2) rotate(90deg);
     opacity: 1;
   }
   100% { 
-    transform: translate(-50%, -50%) translate(var(--drift-x, 40px), var(--drift-y, -60px)) scale(0);
+    transform: translate(-50%, -50%) translate(var(--drift-x, 40px), var(--drift-y, -60px)) scale(0.2) rotate(360deg);
     opacity: 0;
   }
 }
-
-.celebration-sparkle:nth-child(odd) { --drift-x: -30px; --drift-y: -40px; }
-.celebration-sparkle:nth-child(even) { --drift-x: 35px; --drift-y: -50px; }
-.celebration-sparkle:nth-child(3n) { --drift-x: -20px; --drift-y: -70px; }
-.celebration-sparkle:nth-child(4n) { --drift-x: 45px; --drift-y: -35px; }
 
 @keyframes celebration-pop {
   0% { 
