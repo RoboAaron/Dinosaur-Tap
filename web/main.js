@@ -140,13 +140,46 @@
     
     pop: function(x, y, dino) {
       if (dino) {
+        // Set CSS variable for current scale
+        dino.style.setProperty('--current-scale', dinoSizeScale);
         dino.style.animation = 'celebration-pop 0.3s ease-out';
-        setTimeout(() => { dino.style.animation = ''; }, 300);
+        setTimeout(() => { 
+          dino.style.animation = ''; 
+          // Restore the proper transform with current scale
+          dino.style.transform = `translate(-50%, -50%) scale(${dinoSizeScale})`;
+        }, 300);
       }
     },
     
+    fireworks: function(x, y) {
+      // Launch trail
+      const trail = document.createElement('div');
+      trail.className = 'celebration-firework firework-trail';
+      trail.style.left = x + 'px';
+      trail.style.top = y + 'px';
+      document.body.appendChild(trail);
+      
+      // Burst after delay
+      setTimeout(() => {
+        for (let i = 0; i < 12; i++) {
+          const burst = document.createElement('div');
+          burst.className = 'celebration-firework firework-burst';
+          const angle = (i / 12) * Math.PI * 2;
+          const distance = 30 + Math.random() * 20;
+          const burstX = x + Math.cos(angle) * distance;
+          const burstY = y - 80 + Math.sin(angle) * distance;
+          burst.style.left = burstX + 'px';
+          burst.style.top = burstY + 'px';
+          burst.style.animationDelay = (i * 20) + 'ms';
+          document.body.appendChild(burst);
+          setTimeout(() => burst.remove(), 1200);
+        }
+        trail.remove();
+      }, 800);
+    },
+    
     random: function(x, y, dino) {
-      const effects = ['confetti', 'ring', 'sparkles', 'pop'];
+      const effects = ['confetti', 'ring', 'sparkles', 'pop', 'fireworks'];
       const randomEffect = effects[Math.floor(Math.random() * effects.length)];
       celebrationEffects[randomEffect](x, y, dino);
     }
