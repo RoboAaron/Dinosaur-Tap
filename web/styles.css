@@ -36,9 +36,7 @@ body{
 .effect-controls{display:flex; align-items:center; gap:4px}
 .effect-label{font-size:12px; font-weight:600; color:#666}
 .effect-selector{padding:3px 6px; border:1px solid #ccc; border-radius:4px; font-size:12px; background:white}
-.mode-controls{display:flex; align-items:center; gap:4px}
-.mode-label{font-size:12px; font-weight:600; color:#666}
-.mode-selector{padding:3px 6px; border:1px solid #ccc; border-radius:4px; font-size:12px; background:white}
+
 
 /* Mobile responsive adjustments */
 @media (max-width: 640px) {
@@ -54,11 +52,8 @@ body{
   .effect-controls{
     order:3; gap:3px;
   }
-  .mode-controls{
-    order:4; gap:3px;
-  }
-  .effect-label, .mode-label{
-    display:none; /* Hide labels on mobile */
+  .effect-label{
+    display:none; /* Hide label on mobile */
   }
   .size-btn{
     min-width:28px; padding:3px 5px; font-size:14px;
@@ -66,7 +61,7 @@ body{
   .size-display{
     font-size:12px; min-width:30px;
   }
-  .effect-selector, .mode-selector{
+  .effect-selector{
     padding:2px 4px; font-size:11px;
   }
   .btn{

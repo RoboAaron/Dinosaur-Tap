@@ -16,8 +16,8 @@
   // Elements
   const homeScreen = document.getElementById('screen-home');
   const playScreen = document.getElementById('screen-play');
-  const playButton = document.getElementById('btn-play');
-  const btnPlay = document.getElementById('btn-play');
+  const btnPlayNormal = document.getElementById('btn-play-normal');
+  const btnPlayUnlimited = document.getElementById('btn-play-unlimited');
   const btnHome = document.getElementById('btn-home');
   const starCounter = document.getElementById('stars');
   const playArea = document.getElementById('play-area');
@@ -25,7 +25,6 @@
   const btnSizeDown = document.getElementById('btn-size-down');
   const sizeDisplay = document.getElementById('size-display');
   const effectSelector = document.getElementById('effect-selector');
-  const modeSelector = document.getElementById('mode-selector');
   let dinoElements = Array.from(document.querySelectorAll('.dino-static'));
 
   // Config
@@ -280,11 +279,19 @@
     dinoElements.forEach(dino => {
       dino.style.transform = `translate(-50%, -50%) scale(${dinoSizeScale})`;
     });
-    sizeDisplay.textContent = `${dinoSizeScale.toFixed(1)}x`;
+    if (dinoSizeScale === -1) {
+      sizeDisplay.textContent = 'Random';
+    } else {
+      sizeDisplay.textContent = `${dinoSizeScale.toFixed(1)}x`;
+    }
   }
 
   function increaseDinoSize() {
-    dinoSizeScale += 0.5;
+    if (dinoSizeScale === -1) {
+      dinoSizeScale = 1.0; // Exit random mode
+    } else {
+      dinoSizeScale += 0.5;
+    }
     updateDinoSizes();
   }
 
@@ -292,6 +299,20 @@
     if (dinoSizeScale > 0.5) {
       dinoSizeScale -= 0.5;
       updateDinoSizes();
+    } else if (dinoSizeScale === 0.5) {
+      // Enter random zoom mode
+      dinoSizeScale = -1;
+      updateDinoSizes();
+      applyRandomSizes();
+    }
+  }
+
+  function applyRandomSizes() {
+    if (dinoSizeScale === -1) {
+      dinoElements.forEach(dino => {
+        const randomScale = 0.5 + Math.random() * 5.5; // 0.5x to 6x
+        dino.style.transform = `translate(-50%, -50%) scale(${randomScale})`;
+      });
     }
   }
 
@@ -377,9 +398,20 @@
 
       // Position and show
       const x = randBetween(EDGE_MARGIN_PCT, 100 - EDGE_MARGIN_PCT);
-      const y = randBetween(10, 90); // expand vertical spawn range
-      dino.style.left = x + '%';
-      dino.style.top = y + '%';
+      const y = randBetween(10, 90); 
+      dino.style.left = `${x}%`;
+      dino.style.top = `${y}%`;
+      
+      // Apply size based on current mode
+      if (dinoSizeScale === -1) {
+        // Random mode: each dino gets random size
+        const randomScale = 0.5 + Math.random() * 5.5; // 0.5x to 6x
+        dino.style.transform = `translate(-50%, -50%) scale(${randomScale})`;
+      } else {
+        // Normal mode: use current scale
+        dino.style.transform = `translate(-50%, -50%) scale(${dinoSizeScale})`;
+      }
+      
       dino.classList.add('visible');
       visibleQueue.push({ el: dino, shownAt: Date.now() });
       
@@ -464,10 +496,18 @@
   }
 
   // Tap handlers
-  btnPlay.addEventListener('click', () => {
+  btnPlayNormal.addEventListener('click', () => {
+    gameMode = 'normal';
     showScreen('play');
     startGame();
   });
+  
+  btnPlayUnlimited.addEventListener('click', () => {
+    gameMode = 'unlimited';
+    showScreen('play');
+    startGame();
+  });
+  
   btnHome.addEventListener('click', () => { stopGame(); showScreen('home'); });
 
   // Size control handlers
@@ -484,15 +524,7 @@
     console.error('Effect selector element not found');
   }
 
-  // Mode selector handler
-  if (modeSelector) {
-    modeSelector.addEventListener('change', (e) => {
-      gameMode = e.target.value;
-      console.log('Game mode changed to:', gameMode);
-    });
-  } else {
-    console.error('Mode selector element not found');
-  }
+
 
   // Prevent iOS rubber-band within play area
   playArea.addEventListener('touchmove', (e)=>{ e.preventDefault(); }, {passive:false});

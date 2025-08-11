@@ -13,7 +13,8 @@
     <!-- Home Screen -->
     <section id="screen-home" class="screen is-visible" role="region" aria-label="Home Screen">
       <h1 class="title" aria-label="Dino Tap!">🦕 Dino Tap!</h1>
-      <button id="btn-play" class="btn primary" aria-label="Play the Dino game">Play</button>
+      <button id="btn-play-normal" class="btn primary" aria-label="Play Normal Mode">Play Normal</button>
+      <button id="btn-play-unlimited" class="btn" aria-label="Play Unlimited Mode">Play Unlimited</button>
     </section>
 
     <!-- Play Screen -->
@@ -40,13 +41,7 @@
             <option value="random">Random</option>
           </select>
         </div>
-        <div class="mode-controls">
-          <label for="mode-selector" class="mode-label">Mode:</label>
-          <select id="mode-selector" class="mode-selector" aria-label="Choose game mode">
-            <option value="normal">Normal</option>
-            <option value="unlimited">Unlimited</option>
-          </select>
-        </div>
+
         <div class="score" aria-live="polite" aria-label="Stars earned">
           ⭐ <span id="stars">0</span>
         </div>
