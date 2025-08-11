@@ -26,6 +26,7 @@
   const btnSizeDown = document.getElementById('btn-size-down');
   const sizeDisplay = document.getElementById('size-display');
   const btnSoundToggle = document.getElementById('btn-sound-toggle');
+  const btnVibrateTest = document.getElementById('btn-vibrate-test');
   const effectSelector = document.getElementById('effect-selector');
   let dinoElements = Array.from(document.querySelectorAll('.dino-static'));
 
@@ -774,8 +775,30 @@
     dino.dataset.lastTapTs = String(now);
     
     // Haptic feedback for mobile devices
+    console.log('Attempting vibration...');
+    console.log('navigator.vibrate available:', !!navigator.vibrate);
+    
     if (navigator.vibrate) {
-      navigator.vibrate(50); // 50ms vibration
+      try {
+        const vibrated = navigator.vibrate(50); // 50ms vibration
+        console.log('Vibration result:', vibrated);
+      } catch (error) {
+        console.error('Vibration error:', error);
+      }
+    } else {
+      console.log('Vibration not supported');
+    }
+    
+    // Alternative vibration patterns for better compatibility
+    if (navigator.vibrate) {
+      // Try different patterns for better Android compatibility
+      setTimeout(() => {
+        try {
+          navigator.vibrate([50]); // Array format
+        } catch (e) {
+          console.log('Array vibration failed:', e);
+        }
+      }, 10);
     }
     
     // Play dinosaur-specific roar
@@ -856,6 +879,61 @@
     // Play a test sound when enabling
     if (soundEnabled) {
       playTestBeep();
+    }
+  });
+
+  // Vibration test handler
+  btnVibrateTest.addEventListener('click', () => {
+    console.log('=== VIBRATION TEST ===');
+    console.log('User agent:', navigator.userAgent);
+    console.log('Platform:', navigator.platform);
+    console.log('Vibrate API available:', 'vibrate' in navigator);
+    console.log('Is secure context (HTTPS):', window.isSecureContext);
+    
+    if ('vibrate' in navigator) {
+      console.log('Testing different vibration patterns...');
+      
+      // Test 1: Simple vibration
+      try {
+        const result1 = navigator.vibrate(100);
+        console.log('Simple vibrate(100) result:', result1);
+      } catch (e) {
+        console.error('Simple vibration failed:', e);
+      }
+      
+      // Test 2: Array pattern
+      setTimeout(() => {
+        try {
+          const result2 = navigator.vibrate([100]);
+          console.log('Array vibrate([100]) result:', result2);
+        } catch (e) {
+          console.error('Array vibration failed:', e);
+        }
+      }, 200);
+      
+      // Test 3: Pattern vibration
+      setTimeout(() => {
+        try {
+          const result3 = navigator.vibrate([50, 50, 50]);
+          console.log('Pattern vibrate([50,50,50]) result:', result3);
+        } catch (e) {
+          console.error('Pattern vibration failed:', e);
+        }
+      }, 500);
+      
+      // Test 4: Long vibration
+      setTimeout(() => {
+        try {
+          const result4 = navigator.vibrate(200);
+          console.log('Long vibrate(200) result:', result4);
+        } catch (e) {
+          console.error('Long vibration failed:', e);
+        }
+      }, 1000);
+      
+    } else {
+      console.error('Vibration API not available');
+      alert('Vibration API not supported on this device/browser');
     }
   });
 
