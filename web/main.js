@@ -12,6 +12,7 @@
   let dinoSizeScale = 1.0; // Current size multiplier
   let currentEffect = 'confetti'; // Current celebration effect
   let gameMode = 'normal'; // 'normal' or 'unlimited'
+  let soundEnabled = true; // Audio toggle
 
   // Elements
   const homeScreen = document.getElementById('screen-home');
@@ -24,6 +25,7 @@
   const btnSizeUp = document.getElementById('btn-size-up');
   const btnSizeDown = document.getElementById('btn-size-down');
   const sizeDisplay = document.getElementById('size-display');
+  const btnSoundToggle = document.getElementById('btn-sound-toggle');
   const effectSelector = document.getElementById('effect-selector');
   let dinoElements = Array.from(document.querySelectorAll('.dino-static'));
 
@@ -55,6 +57,191 @@
   const visibleQueue = [];
   const autoHideTimers = new Map();
 
+  // Audio System
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const sounds = {
+    // Dinosaur roars - mapped to asset filenames
+    'make-a-t-rex-for-a-toddler-game.svg': createDinosaurRoar(80, 0.3, 'aggressive'), // Deep, powerful
+    'make-a-t-rex-for-a-toddler-game (1).svg': createDinosaurRoar(85, 0.3, 'aggressive'),
+    'make-a-triceratops-for-a-toddler-game.svg': createDinosaurRoar(120, 0.25, 'herbivore'), // Higher, gentler
+    'make-a-stegosaurus-for-a-toddler-game.svg': createDinosaurRoar(100, 0.2, 'herbivore'),
+    'make-a-stegosaurus-for-a-toddler-game (1).svg': createDinosaurRoar(105, 0.2, 'herbivore'),
+    'make-a-diplodocus-for-a-toddler-game.svg': createDinosaurRoar(60, 0.4, 'gentle'), // Very deep, long
+    'make-a-pterodactyl-for-a-toddler-game.svg': createDinosaurRoar(300, 0.15, 'flying'), // High pitched screech
+    'make-a-spinosaurus-for-a-toddler-game.svg': createDinosaurRoar(90, 0.35, 'aquatic'), // Deep with bubbles
+    'make-a-velociraptor-for-a-toddler-game.svg': createDinosaurRoar(200, 0.2, 'raptor'), // Sharp, quick
+    'make-a-velociraptor-for-a-toddler-game (1).svg': createDinosaurRoar(210, 0.2, 'raptor'),
+    'create-a-liopleurodon-for-a-toddler-game.svg': createDinosaurRoar(70, 0.3, 'marine'), // Deep marine sound
+    'create-an-ankylosaurus-for-a-toddler-game--make-su.svg': createDinosaurRoar(110, 0.25, 'armored'), // Muffled
+    
+    // UI sounds
+    tap: createTapSound(),
+    star: createStarSound(),
+    spawn: createSpawnSound(),
+    celebration: createCelebrationSound()
+  };
+
+  function createDinosaurRoar(baseFreq, duration, type) {
+    return () => {
+      if (!soundEnabled) return;
+      
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      const filterNode = audioContext.createBiquadFilter();
+      
+      oscillator.connect(filterNode);
+      filterNode.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      // Base roar characteristics
+      oscillator.frequency.setValueAtTime(baseFreq, audioContext.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(baseFreq * 0.7, audioContext.currentTime + duration);
+      
+      // Type-specific modifications
+      switch(type) {
+        case 'aggressive':
+          oscillator.type = 'sawtooth';
+          filterNode.frequency.setValueAtTime(800, audioContext.currentTime);
+          break;
+        case 'herbivore':
+          oscillator.type = 'triangle';
+          filterNode.frequency.setValueAtTime(1200, audioContext.currentTime);
+          break;
+        case 'gentle':
+          oscillator.type = 'sine';
+          filterNode.frequency.setValueAtTime(600, audioContext.currentTime);
+          break;
+        case 'flying':
+          oscillator.type = 'square';
+          filterNode.frequency.setValueAtTime(2000, audioContext.currentTime);
+          break;
+        case 'aquatic':
+          oscillator.type = 'sawtooth';
+          filterNode.frequency.setValueAtTime(400, audioContext.currentTime);
+          break;
+        case 'raptor':
+          oscillator.type = 'square';
+          filterNode.frequency.setValueAtTime(1500, audioContext.currentTime);
+          break;
+        case 'marine':
+          oscillator.type = 'sine';
+          filterNode.frequency.setValueAtTime(300, audioContext.currentTime);
+          break;
+        case 'armored':
+          oscillator.type = 'triangle';
+          filterNode.frequency.setValueAtTime(600, audioContext.currentTime);
+          break;
+      }
+      
+      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.05);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + duration);
+    };
+  }
+
+  function createTapSound() {
+    return () => {
+      if (!soundEnabled) return;
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.1);
+      oscillator.type = 'sine';
+      
+      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.05, audioContext.currentTime + 0.01);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.1);
+    };
+  }
+
+  function createStarSound() {
+    return () => {
+      if (!soundEnabled) return;
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(523, audioContext.currentTime); // C5
+      oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.1); // E5
+      oscillator.frequency.setValueAtTime(784, audioContext.currentTime + 0.2); // G5
+      oscillator.type = 'triangle';
+      
+      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.08, audioContext.currentTime + 0.05);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.3);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.3);
+    };
+  }
+
+  function createSpawnSound() {
+    return () => {
+      if (!soundEnabled) return;
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.2);
+      oscillator.type = 'sine';
+      
+      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.03, audioContext.currentTime + 0.05);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.2);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.2);
+    };
+  }
+
+  function createCelebrationSound() {
+    return () => {
+      if (!soundEnabled) return;
+      // Play a quick ascending arpeggio
+      const notes = [523, 659, 784, 1047]; // C5, E5, G5, C6
+      notes.forEach((freq, i) => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.setValueAtTime(freq, audioContext.currentTime + i * 0.05);
+        oscillator.type = 'triangle';
+        
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime + i * 0.05);
+        gainNode.gain.linearRampToValueAtTime(0.04, audioContext.currentTime + i * 0.05 + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + i * 0.05 + 0.15);
+        
+        oscillator.start(audioContext.currentTime + i * 0.05);
+        oscillator.stop(audioContext.currentTime + i * 0.05 + 0.15);
+      });
+    };
+  }
+
+  function playDinosaurSound(dinoSrc) {
+    const filename = dinoSrc.split('/').pop().split('?')[0]; // Extract filename without query params
+    const soundFunc = sounds[filename];
+    if (soundFunc) {
+      soundFunc();
+    }
+  }
+
   function showScreen(target) {
     const isHome = target === 'home';
     if (isHome) {
@@ -73,6 +260,7 @@
   function grantStar() {
     stars++;
     starCounter.textContent = stars;
+    sounds.star(); // Play star sound
   }
 
   function pick(arr) {
@@ -271,7 +459,13 @@
 
   function celebrateAt(x, y, dino = null) {
     const effect = celebrationEffects[currentEffect];
-    if (effect) effect(x, y, dino);
+    if (effect) {
+      effect(x, y, dino);
+      // Play celebration sound for visual effects (not for pop which is dino-focused)
+      if (currentEffect !== 'pop') {
+        sounds.celebration();
+      }
+    }
   }
 
   // Size control functions
@@ -415,8 +609,11 @@
       dino.classList.add('visible');
       visibleQueue.push({ el: dino, shownAt: Date.now() });
       
-      // Auto-hide only once enough dinos are visible
+      // Play spawn sound
+      sounds.spawn();
+      
       scheduleAutoHide(dino);
+      activeDinos++;
     }
   }
 
@@ -463,6 +660,18 @@
     const last = Number(dino.dataset.lastTapTs || 0);
     if (now - last < 250) return;
     dino.dataset.lastTapTs = String(now);
+    
+    // Haptic feedback for mobile devices
+    if (navigator.vibrate) {
+      navigator.vibrate(50); // 50ms vibration
+    }
+    
+    // Play dinosaur-specific roar
+    playDinosaurSound(dino.src);
+    
+    // Play tap sound
+    sounds.tap();
+    
     // celebrate at tap point
     const pt = getTapPoint(e, dino);
     celebrateAt(pt.x, pt.y, dino);
@@ -513,6 +722,13 @@
   // Size control handlers
   btnSizeUp.addEventListener('click', increaseDinoSize);
   btnSizeDown.addEventListener('click', decreaseDinoSize);
+
+  // Sound toggle handler
+  btnSoundToggle.addEventListener('click', () => {
+    soundEnabled = !soundEnabled;
+    btnSoundToggle.textContent = soundEnabled ? '🔊' : '🔇';
+    btnSoundToggle.setAttribute('aria-label', soundEnabled ? 'Mute sound effects' : 'Enable sound effects');
+  });
 
   // Effect selector handler
   if (effectSelector) {

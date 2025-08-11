@@ -33,6 +33,8 @@ body{
 .size-controls{display:flex; align-items:center; gap:6px}
 .size-btn{min-width:32px; padding:4px 6px; font-size:16px; font-weight:bold}
 .size-display{font-size:14px; font-weight:600; min-width:35px; text-align:center; color:#666}
+.sound-controls{display:flex; align-items:center; gap:6px}
+.sound-btn{min-width:32px; padding:4px 6px; font-size:16px; font-weight:bold}
 .effect-controls{display:flex; align-items:center; gap:4px}
 .effect-label{font-size:12px; font-weight:600; color:#666}
 .effect-selector{padding:3px 6px; border:1px solid #ccc; border-radius:4px; font-size:12px; background:white}
@@ -49,13 +51,16 @@ body{
   .size-controls{
     order:2; gap:4px;
   }
+  .sound-controls{
+    order:3; gap:4px;
+  }
   .effect-controls{
-    order:3; gap:3px;
+    order:4; gap:3px;
   }
   .effect-label{
     display:none; /* Hide label on mobile */
   }
-  .size-btn{
+  .size-btn, .sound-btn{
     min-width:28px; padding:3px 5px; font-size:14px;
   }
   .size-display{
