@@ -13,6 +13,7 @@
   let currentEffect = 'confetti'; // Current celebration effect
   let gameMode = 'normal'; // 'normal' or 'unlimited'
   let soundEnabled = true; // Audio toggle
+  let debugMode = false; // Debug mode toggle
 
   // Elements
   const homeScreen = document.getElementById('screen-home');
@@ -26,7 +27,7 @@
   const btnSizeDown = document.getElementById('btn-size-down');
   const sizeDisplay = document.getElementById('size-display');
   const btnSoundToggle = document.getElementById('btn-sound-toggle');
-  const btnVibrateTest = document.getElementById('btn-vibrate-test');
+  const btnDebugToggle = document.getElementById('btn-debug-toggle');
   const effectSelector = document.getElementById('effect-selector');
   let dinoElements = Array.from(document.querySelectorAll('.dino-static'));
 
@@ -775,18 +776,26 @@
     dino.dataset.lastTapTs = String(now);
     
     // Haptic feedback for mobile devices
-    console.log('Attempting vibration...');
-    console.log('navigator.vibrate available:', !!navigator.vibrate);
+    if (debugMode) {
+      showDebugMessage('Attempting vibration on tap...');
+      showDebugMessage(`navigator.vibrate available: ${!!navigator.vibrate}`);
+    }
     
     if (navigator.vibrate) {
       try {
         const vibrated = navigator.vibrate(50); // 50ms vibration
-        console.log('Vibration result:', vibrated);
+        if (debugMode) {
+          showDebugMessage(`Vibration result: ${vibrated ? 'SUCCESS' : 'FAILED'}`);
+        }
       } catch (error) {
-        console.error('Vibration error:', error);
+        if (debugMode) {
+          showDebugMessage(`Vibration error: ${error.message}`, true);
+        }
       }
     } else {
-      console.log('Vibration not supported');
+      if (debugMode) {
+        showDebugMessage('Vibration not supported', true);
+      }
     }
     
     // Alternative vibration patterns for better compatibility
@@ -795,8 +804,13 @@
       setTimeout(() => {
         try {
           navigator.vibrate([50]); // Array format
+          if (debugMode) {
+            showDebugMessage('Fallback array vibration attempted');
+          }
         } catch (e) {
-          console.log('Array vibration failed:', e);
+          if (debugMode) {
+            showDebugMessage(`Array vibration failed: ${e.message}`, true);
+          }
         }
       }, 10);
     }
@@ -882,58 +896,109 @@
     }
   });
 
-  // Vibration test handler
-  btnVibrateTest.addEventListener('click', () => {
-    console.log('=== VIBRATION TEST ===');
-    console.log('User agent:', navigator.userAgent);
-    console.log('Platform:', navigator.platform);
-    console.log('Vibrate API available:', 'vibrate' in navigator);
-    console.log('Is secure context (HTTPS):', window.isSecureContext);
+  // Create debug display function
+  function showDebugMessage(message, isError = false) {
+    if (!debugMode) return; // Only show debug messages when debug mode is on
+    
+    const debugDiv = document.getElementById('debug-display') || (() => {
+      const div = document.createElement('div');
+      div.id = 'debug-display';
+      div.style.cssText = `
+        position: fixed; top: 10px; left: 10px; right: 10px; 
+        background: rgba(0,0,0,0.9); color: white; padding: 10px; 
+        border-radius: 8px; font-family: monospace; font-size: 12px; 
+        z-index: 10000; max-height: 200px; overflow-y: auto;
+        border: 2px solid ${isError ? '#ff4444' : '#44ff44'};
+      `;
+      document.body.appendChild(div);
+      return div;
+    })();
+    
+    const timestamp = new Date().toLocaleTimeString();
+    debugDiv.innerHTML += `<div style="margin: 2px 0; color: ${isError ? '#ff8888' : '#88ff88'}">[${timestamp}] ${message}</div>`;
+    debugDiv.scrollTop = debugDiv.scrollHeight;
+    
+    // Auto-clear after 10 seconds
+    setTimeout(() => {
+      if (debugDiv.children.length > 20) {
+        debugDiv.removeChild(debugDiv.firstChild);
+      }
+    }, 10000);
+  }
+
+  function runVibrationTest() {
+    showDebugMessage('=== VIBRATION TEST STARTED ===');
+    showDebugMessage(`Browser: ${navigator.userAgent.includes('Chrome') ? 'Chrome' : 'Other'}`);
+    showDebugMessage(`Platform: ${navigator.platform}`);
+    showDebugMessage(`Vibrate API: ${'vibrate' in navigator ? 'Available' : 'Not Available'}`);
+    showDebugMessage(`HTTPS: ${window.isSecureContext ? 'Yes' : 'No'}`);
+    showDebugMessage(`URL: ${window.location.protocol}//${window.location.host}`);
     
     if ('vibrate' in navigator) {
-      console.log('Testing different vibration patterns...');
+      showDebugMessage('Testing vibration patterns...');
       
       // Test 1: Simple vibration
       try {
         const result1 = navigator.vibrate(100);
-        console.log('Simple vibrate(100) result:', result1);
+        showDebugMessage(`Test 1 - Simple vibrate(100): ${result1 ? 'SUCCESS' : 'FAILED'}`);
       } catch (e) {
-        console.error('Simple vibration failed:', e);
+        showDebugMessage(`Test 1 - Simple vibration ERROR: ${e.message}`, true);
       }
       
       // Test 2: Array pattern
       setTimeout(() => {
         try {
           const result2 = navigator.vibrate([100]);
-          console.log('Array vibrate([100]) result:', result2);
+          showDebugMessage(`Test 2 - Array vibrate([100]): ${result2 ? 'SUCCESS' : 'FAILED'}`);
         } catch (e) {
-          console.error('Array vibration failed:', e);
+          showDebugMessage(`Test 2 - Array vibration ERROR: ${e.message}`, true);
         }
-      }, 200);
+      }, 300);
       
       // Test 3: Pattern vibration
       setTimeout(() => {
         try {
           const result3 = navigator.vibrate([50, 50, 50]);
-          console.log('Pattern vibrate([50,50,50]) result:', result3);
+          showDebugMessage(`Test 3 - Pattern vibrate([50,50,50]): ${result3 ? 'SUCCESS' : 'FAILED'}`);
         } catch (e) {
-          console.error('Pattern vibration failed:', e);
+          showDebugMessage(`Test 3 - Pattern vibration ERROR: ${e.message}`, true);
         }
-      }, 500);
+      }, 700);
       
       // Test 4: Long vibration
       setTimeout(() => {
         try {
           const result4 = navigator.vibrate(200);
-          console.log('Long vibrate(200) result:', result4);
+          showDebugMessage(`Test 4 - Long vibrate(200): ${result4 ? 'SUCCESS' : 'FAILED'}`);
+          showDebugMessage('=== VIBRATION TEST COMPLETE ===');
         } catch (e) {
-          console.error('Long vibration failed:', e);
+          showDebugMessage(`Test 4 - Long vibration ERROR: ${e.message}`, true);
         }
-      }, 1000);
+      }, 1200);
       
     } else {
-      console.error('Vibration API not available');
-      alert('Vibration API not supported on this device/browser');
+      showDebugMessage('Vibration API not supported on this device/browser', true);
+    }
+  }
+
+  // Debug toggle handler
+  btnDebugToggle.addEventListener('click', () => {
+    debugMode = !debugMode;
+    btnDebugToggle.textContent = debugMode ? '🐛' : '🔍';
+    btnDebugToggle.setAttribute('aria-label', debugMode ? 'Disable debug mode' : 'Enable debug mode');
+    
+    if (debugMode) {
+      showDebugMessage('=== DEBUG MODE ENABLED ===');
+      showDebugMessage('Tap this button again to disable debug mode');
+      showDebugMessage('Now tapping dinosaurs will show vibration debug info');
+      // Run vibration test when debug mode is enabled
+      runVibrationTest();
+    } else {
+      // Hide debug display when debug mode is disabled
+      const debugDiv = document.getElementById('debug-display');
+      if (debugDiv) {
+        debugDiv.remove();
+      }
     }
   });
 
