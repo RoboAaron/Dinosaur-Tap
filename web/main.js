@@ -480,22 +480,67 @@
     },
 
     lightning: function(x, y) {
+      // Create main lightning bolt container
       const lightning = document.createElement('div');
       lightning.className = 'celebration-lightning';
-      lightning.innerHTML = '⚡';
       lightning.style.left = x + 'px';
       lightning.style.top = y + 'px';
+      
+      // Create multiple lightning segments for realistic branching
+      const segments = [
+        { x1: 0, y1: -100, x2: -5, y2: -60, width: 3 },
+        { x1: -5, y1: -60, x2: 8, y2: -20, width: 4 },
+        { x1: 8, y1: -20, x2: -3, y2: 20, width: 3 },
+        { x1: -3, y1: 20, x2: 12, y2: 60, width: 2 },
+        // Branch 1
+        { x1: 8, y1: -20, x2: 25, y2: 10, width: 2 },
+        { x1: 25, y1: 10, x2: 35, y2: 40, width: 1 },
+        // Branch 2
+        { x1: -5, y1: -60, x2: -20, y2: -30, width: 2 },
+        { x1: -20, y1: -30, x2: -25, y2: -10, width: 1 }
+      ];
+      
+      segments.forEach((seg, i) => {
+        const bolt = document.createElement('div');
+        bolt.className = 'lightning-segment';
+        
+        const length = Math.sqrt(Math.pow(seg.x2 - seg.x1, 2) + Math.pow(seg.y2 - seg.y1, 2));
+        const angle = Math.atan2(seg.y2 - seg.y1, seg.x2 - seg.x1) * 180 / Math.PI;
+        
+        bolt.style.position = 'absolute';
+        bolt.style.left = seg.x1 + 'px';
+        bolt.style.top = seg.y1 + 'px';
+        bolt.style.width = length + 'px';
+        bolt.style.height = seg.width + 'px';
+        bolt.style.background = 'linear-gradient(90deg, #ffffff, #87ceeb, #ffffff)';
+        bolt.style.boxShadow = `0 0 ${seg.width * 2}px #87ceeb, 0 0 ${seg.width * 4}px #4169e1`;
+        bolt.style.transform = `rotate(${angle}deg)`;
+        bolt.style.transformOrigin = '0 50%';
+        bolt.style.animation = `lightning-flash 0.3s ease-out ${i * 0.02}s`;
+        bolt.style.borderRadius = '1px';
+        
+        lightning.appendChild(bolt);
+      });
+      
+      // Add screen flash effect
+      const flash = document.createElement('div');
+      flash.style.position = 'fixed';
+      flash.style.top = '0';
+      flash.style.left = '0';
+      flash.style.width = '100vw';
+      flash.style.height = '100vh';
+      flash.style.background = 'rgba(255, 255, 255, 0.3)';
+      flash.style.pointerEvents = 'none';
+      flash.style.animation = 'lightning-screen-flash 0.15s ease-out';
+      flash.style.zIndex = '9999';
+      
       document.body.appendChild(lightning);
-      setTimeout(() => lightning.remove(), 600);
-    },
-
-    rainbow: function(x, y) {
-      const rainbow = document.createElement('div');
-      rainbow.className = 'celebration-rainbow';
-      rainbow.style.left = x + 'px';
-      rainbow.style.top = y + 'px';
-      document.body.appendChild(rainbow);
-      setTimeout(() => rainbow.remove(), 1500);
+      document.body.appendChild(flash);
+      
+      setTimeout(() => {
+        lightning.remove();
+        flash.remove();
+      }, 600);
     },
 
     bubbles: function(x, y) {
@@ -518,7 +563,7 @@
     },
     
     random: function(x, y, dino) {
-      const effects = ['confetti', 'ring', 'sparkles', 'pop', 'fireworks', 'hearts', 'lightning', 'rainbow', 'bubbles'];
+      const effects = ['confetti', 'ring', 'sparkles', 'pop', 'fireworks', 'hearts', 'lightning', 'bubbles'];
       const randomEffect = effects[Math.floor(Math.random() * effects.length)];
       celebrationEffects[randomEffect](x, y, dino);
     }
