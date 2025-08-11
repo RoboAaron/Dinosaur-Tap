@@ -36,6 +36,9 @@ body{
 .effect-controls{display:flex; align-items:center; gap:4px}
 .effect-label{font-size:12px; font-weight:600; color:#666}
 .effect-selector{padding:3px 6px; border:1px solid #ccc; border-radius:4px; font-size:12px; background:white}
+.mode-controls{display:flex; align-items:center; gap:4px}
+.mode-label{font-size:12px; font-weight:600; color:#666}
+.mode-selector{padding:3px 6px; border:1px solid #ccc; border-radius:4px; font-size:12px; background:white}
 
 /* Mobile responsive adjustments */
 @media (max-width: 640px) {
@@ -51,8 +54,11 @@ body{
   .effect-controls{
     order:3; gap:3px;
   }
-  .effect-label{
-    display:none; /* Hide "Effect:" label on mobile */
+  .mode-controls{
+    order:4; gap:3px;
+  }
+  .effect-label, .mode-label{
+    display:none; /* Hide labels on mobile */
   }
   .size-btn{
     min-width:28px; padding:3px 5px; font-size:14px;
@@ -60,7 +66,7 @@ body{
   .size-display{
     font-size:12px; min-width:30px;
   }
-  .effect-selector{
+  .effect-selector, .mode-selector{
     padding:2px 4px; font-size:11px;
   }
   .btn{
@@ -283,6 +289,109 @@ body{
   }
   100% { 
     transform: translate(-50%, -50%) scale(4);
+    opacity: 0;
+  }
+}
+
+/* New celebration effects */
+.celebration-heart {
+  position: fixed;
+  font-size: 20px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1000;
+  animation: celebration-heart-float 2s ease-out forwards;
+}
+
+@keyframes celebration-heart-float {
+  0% { 
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 1;
+  }
+  50% { 
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 1;
+  }
+  100% { 
+    transform: translate(-50%, -50%) translate(var(--drift-x, 0px), var(--drift-y, -50px)) scale(0.8);
+    opacity: 0;
+  }
+}
+
+.celebration-lightning {
+  position: fixed;
+  font-size: 30px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1000;
+  animation: celebration-lightning-flash 0.6s ease-out forwards;
+  filter: drop-shadow(0 0 10px #ffff00);
+}
+
+@keyframes celebration-lightning-flash {
+  0%, 20%, 40%, 60%, 80% { 
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  10%, 30%, 50%, 70% { 
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  100% { 
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+}
+
+.celebration-rainbow {
+  position: fixed;
+  width: 80px;
+  height: 40px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1000;
+  background: linear-gradient(90deg, #ff0000, #ff8000, #ffff00, #00ff00, #0080ff, #8000ff);
+  border-radius: 80px 80px 0 0;
+  animation: celebration-rainbow-arc 1.5s ease-out forwards;
+}
+
+@keyframes celebration-rainbow-arc {
+  0% { 
+    transform: translate(-50%, -50%) scale(0) rotate(0deg);
+    opacity: 1;
+  }
+  50% { 
+    transform: translate(-50%, -50%) scale(1.2) rotate(10deg);
+    opacity: 1;
+  }
+  100% { 
+    transform: translate(-50%, -50%) scale(0.8) rotate(-10deg);
+    opacity: 0;
+  }
+}
+
+.celebration-bubble {
+  position: fixed;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(173,216,230,0.6));
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1000;
+  animation: celebration-bubble-float 2.5s ease-out forwards;
+}
+
+@keyframes celebration-bubble-float {
+  0% { 
+    transform: translate(-50%, -50%) scale(0.3);
+    opacity: 0.8;
+  }
+  20% { 
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% { 
+    transform: translate(-50%, -50%) translate(var(--drift-x, 0px), var(--drift-y, -60px)) scale(1.2);
     opacity: 0;
   }
 }

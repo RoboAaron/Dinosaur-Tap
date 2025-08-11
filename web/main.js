@@ -11,6 +11,7 @@
   let centerDino = null;
   let dinoSizeScale = 1.0; // Current size multiplier
   let currentEffect = 'confetti'; // Current celebration effect
+  let gameMode = 'normal'; // 'normal' or 'unlimited'
 
   // Elements
   const homeScreen = document.getElementById('screen-home');
@@ -24,6 +25,7 @@
   const btnSizeDown = document.getElementById('btn-size-down');
   const sizeDisplay = document.getElementById('size-display');
   const effectSelector = document.getElementById('effect-selector');
+  const modeSelector = document.getElementById('mode-selector');
   let dinoElements = Array.from(document.querySelectorAll('.dino-static'));
 
   // Config
@@ -37,6 +39,7 @@
   const MIN_STAY_DINOS = 5; // don't auto-hide until at least this many are visible
   const DINO_ASSETS = [
     `assets/dino-assets/make-a-t-rex-for-a-toddler-game.svg?cb=${CACHE_BUST}`,
+    `assets/dino-assets/make-a-t-rex-for-a-toddler-game (1).svg?cb=${CACHE_BUST}`,
     `assets/dino-assets/make-a-triceratops-for-a-toddler-game.svg?cb=${CACHE_BUST}`,
     `assets/dino-assets/make-a-stegosaurus-for-a-toddler-game.svg?cb=${CACHE_BUST}`,
     `assets/dino-assets/make-a-stegosaurus-for-a-toddler-game (1).svg?cb=${CACHE_BUST}`,
@@ -44,7 +47,9 @@
     `assets/dino-assets/make-a-pterodactyl-for-a-toddler-game.svg?cb=${CACHE_BUST}`,
     `assets/dino-assets/make-a-spinosaurus-for-a-toddler-game.svg?cb=${CACHE_BUST}`,
     `assets/dino-assets/make-a-velociraptor-for-a-toddler-game.svg?cb=${CACHE_BUST}`,
-    `assets/dino-assets/make-a-velociraptor-for-a-toddler-game (1).svg?cb=${CACHE_BUST}`
+    `assets/dino-assets/make-a-velociraptor-for-a-toddler-game (1).svg?cb=${CACHE_BUST}`,
+    `assets/dino-assets/create-a-liopleurodon-for-a-toddler-game.svg?cb=${CACHE_BUST}`,
+    `assets/dino-assets/create-an-ankylosaurus-for-a-toddler-game--make-su.svg?cb=${CACHE_BUST}`
   ];
 
   // Track ordering and per-dino timers
@@ -202,9 +207,64 @@
         trail.remove();
       }, 800);
     },
+
+    hearts: function(x, y) {
+      for (let i = 0; i < 6; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'celebration-heart';
+        heart.innerHTML = '💖';
+        const driftX = (Math.random() - 0.5) * 60;
+        const driftY = -40 - Math.random() * 30;
+        heart.style.left = x + 'px';
+        heart.style.top = y + 'px';
+        heart.style.setProperty('--drift-x', driftX + 'px');
+        heart.style.setProperty('--drift-y', driftY + 'px');
+        heart.style.animationDelay = (i * 100) + 'ms';
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 2000);
+      }
+    },
+
+    lightning: function(x, y) {
+      const lightning = document.createElement('div');
+      lightning.className = 'celebration-lightning';
+      lightning.innerHTML = '⚡';
+      lightning.style.left = x + 'px';
+      lightning.style.top = y + 'px';
+      document.body.appendChild(lightning);
+      setTimeout(() => lightning.remove(), 600);
+    },
+
+    rainbow: function(x, y) {
+      const rainbow = document.createElement('div');
+      rainbow.className = 'celebration-rainbow';
+      rainbow.style.left = x + 'px';
+      rainbow.style.top = y + 'px';
+      document.body.appendChild(rainbow);
+      setTimeout(() => rainbow.remove(), 1500);
+    },
+
+    bubbles: function(x, y) {
+      for (let i = 0; i < 8; i++) {
+        const bubble = document.createElement('div');
+        bubble.className = 'celebration-bubble';
+        const size = 8 + Math.random() * 12;
+        const driftX = (Math.random() - 0.5) * 40;
+        const driftY = -60 - Math.random() * 40;
+        bubble.style.left = x + 'px';
+        bubble.style.top = y + 'px';
+        bubble.style.width = size + 'px';
+        bubble.style.height = size + 'px';
+        bubble.style.setProperty('--drift-x', driftX + 'px');
+        bubble.style.setProperty('--drift-y', driftY + 'px');
+        bubble.style.animationDelay = (i * 80) + 'ms';
+        document.body.appendChild(bubble);
+        setTimeout(() => bubble.remove(), 2500);
+      }
+    },
     
     random: function(x, y, dino) {
-      const effects = ['confetti', 'ring', 'sparkles', 'pop', 'fireworks'];
+      const effects = ['confetti', 'ring', 'sparkles', 'pop', 'fireworks', 'hearts', 'lightning', 'rainbow', 'bubbles'];
       const randomEffect = effects[Math.floor(Math.random() * effects.length)];
       celebrationEffects[randomEffect](x, y, dino);
     }
@@ -284,10 +344,27 @@
   function spawnStaticDino() {
     if (!running) return;
     const visibleDinos = dinoElements.filter(d => d.classList.contains('visible'));
-    if (visibleDinos.length >= MAX_CONCURRENT_DINOS) {
-      // FIFO: remove the oldest visible dino to make room
-      const oldest = visibleQueue.shift();
-      if (oldest && oldest.el) hideDino(oldest.el);
+    
+    // In unlimited mode, don't limit concurrent dinos or use FIFO
+    if (gameMode === 'unlimited') {
+      // Create new dino element if needed
+      if (visibleDinos.length >= dinoElements.length) {
+        const img = document.createElement('img');
+        img.className = 'dino-static';
+        img.setAttribute('role', 'button');
+        img.setAttribute('aria-label', 'Dinosaur');
+        img.src = '';
+        img.addEventListener('click', onDinoTap);
+        img.addEventListener('touchstart', onDinoTap, {passive: false});
+        playArea.appendChild(img);
+        dinoElements.push(img);
+      }
+    } else {
+      // Normal mode: limit concurrent dinos and use FIFO
+      if (visibleDinos.length >= MAX_CONCURRENT_DINOS) {
+        const oldest = visibleQueue.shift();
+        if (oldest && oldest.el) hideDino(oldest.el);
+      }
     }
 
     const dino = pick(dinoElements.filter(d => !d.classList.contains('visible')));
@@ -315,6 +392,13 @@
     const t = setTimeout(() => {
       if (!running) return;
       const visibleCount = dinoElements.filter(d => d.classList.contains('visible')).length;
+      
+      // In unlimited mode, never auto-hide dinos
+      if (gameMode === 'unlimited') {
+        return;
+      }
+      
+      // Normal mode: only hide if enough dinos are visible
       if (visibleCount >= MIN_STAY_DINOS) {
         if (dino.classList.contains('visible')) hideDino(dino);
       } else {
@@ -398,6 +482,16 @@
     });
   } else {
     console.error('Effect selector element not found');
+  }
+
+  // Mode selector handler
+  if (modeSelector) {
+    modeSelector.addEventListener('change', (e) => {
+      gameMode = e.target.value;
+      console.log('Game mode changed to:', gameMode);
+    });
+  } else {
+    console.error('Mode selector element not found');
   }
 
   // Prevent iOS rubber-band within play area
