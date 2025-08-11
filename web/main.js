@@ -58,7 +58,27 @@
   const autoHideTimers = new Map();
 
   // Audio System
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  let audioContext = null;
+  let audioInitialized = false;
+  
+  function initializeAudio() {
+    try {
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        console.log('Audio context created:', audioContext.state);
+      }
+      if (audioContext.state === 'suspended') {
+        audioContext.resume().then(() => {
+          console.log('Audio context resumed:', audioContext.state);
+        });
+      }
+      audioInitialized = true;
+      console.log('Audio initialized successfully');
+    } catch (error) {
+      console.error('Failed to initialize audio:', error);
+    }
+  }
+  
   const sounds = {
     // Dinosaur roars - mapped to asset filenames
     'make-a-t-rex-for-a-toddler-game.svg': createDinosaurRoar(80, 0.3, 'aggressive'), // Deep, powerful
@@ -83,7 +103,8 @@
 
   function createDinosaurRoar(baseFreq, duration, type) {
     return () => {
-      if (!soundEnabled) return;
+      if (!soundEnabled || !audioInitialized) return;
+      if (!audioContext) initializeAudio();
       
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
@@ -134,8 +155,10 @@
       }
       
       gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-      gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.05);
+      gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.05);
       gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
+      
+      console.log(`Playing ${type} roar at ${baseFreq}Hz for ${duration}s`);
       
       oscillator.start(audioContext.currentTime);
       oscillator.stop(audioContext.currentTime + duration);
@@ -144,7 +167,8 @@
 
   function createTapSound() {
     return () => {
-      if (!soundEnabled) return;
+      if (!soundEnabled || !audioInitialized) return;
+      if (!audioContext) initializeAudio();
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
       
@@ -156,8 +180,10 @@
       oscillator.type = 'sine';
       
       gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-      gainNode.gain.linearRampToValueAtTime(0.05, audioContext.currentTime + 0.01);
+      gainNode.gain.linearRampToValueAtTime(0.2, audioContext.currentTime + 0.01);
       gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
+      
+      console.log('Playing tap sound');
       
       oscillator.start(audioContext.currentTime);
       oscillator.stop(audioContext.currentTime + 0.1);
@@ -166,7 +192,8 @@
 
   function createStarSound() {
     return () => {
-      if (!soundEnabled) return;
+      if (!soundEnabled || !audioInitialized) return;
+      if (!audioContext) initializeAudio();
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
       
@@ -174,8 +201,8 @@
       gainNode.connect(audioContext.destination);
       
       oscillator.frequency.setValueAtTime(523, audioContext.currentTime); // C5
-      oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.1); // E5
-      oscillator.frequency.setValueAtTime(784, audioContext.currentTime + 0.2); // G5
+      oscillator.frequency.linearRampToValueAtTime(659, audioContext.currentTime + 0.1); // E5
+      oscillator.frequency.linearRampToValueAtTime(784, audioContext.currentTime + 0.2); // G5
       oscillator.type = 'triangle';
       
       gainNode.gain.setValueAtTime(0, audioContext.currentTime);
@@ -189,7 +216,8 @@
 
   function createSpawnSound() {
     return () => {
-      if (!soundEnabled) return;
+      if (!soundEnabled || !audioInitialized) return;
+      if (!audioContext) initializeAudio();
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
       
@@ -211,7 +239,8 @@
 
   function createCelebrationSound() {
     return () => {
-      if (!soundEnabled) return;
+      if (!soundEnabled || !audioInitialized) return;
+      if (!audioContext) initializeAudio();
       // Play a quick ascending arpeggio
       const notes = [523, 659, 784, 1047]; // C5, E5, G5, C6
       notes.forEach((freq, i) => {
@@ -236,9 +265,47 @@
 
   function playDinosaurSound(dinoSrc) {
     const filename = dinoSrc.split('/').pop().split('?')[0]; // Extract filename without query params
+    console.log('Attempting to play sound for:', filename);
     const soundFunc = sounds[filename];
     if (soundFunc) {
       soundFunc();
+    } else {
+      console.log('No sound function found for:', filename);
+    }
+  }
+
+  // Simple test sound function
+  function playTestBeep() {
+    if (!audioInitialized) {
+      console.log('Audio not initialized, initializing now...');
+      initializeAudio();
+    }
+    
+    if (!audioContext) {
+      console.error('Audio context not available');
+      return;
+    }
+
+    try {
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // A4 note
+      oscillator.type = 'sine';
+      
+      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.01);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.5);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.5);
+      
+      console.log('Test beep played');
+    } catch (error) {
+      console.error('Error playing test beep:', error);
     }
   }
 
@@ -719,15 +786,32 @@
   
   btnHome.addEventListener('click', () => { stopGame(); showScreen('home'); });
 
+  // Initialize audio on first user interaction
+  function handleFirstInteraction() {
+    initializeAudio();
+    document.removeEventListener('click', handleFirstInteraction);
+    document.removeEventListener('touchstart', handleFirstInteraction);
+  }
+  document.addEventListener('click', handleFirstInteraction);
+  document.addEventListener('touchstart', handleFirstInteraction);
+
   // Size control handlers
   btnSizeUp.addEventListener('click', increaseDinoSize);
   btnSizeDown.addEventListener('click', decreaseDinoSize);
 
   // Sound toggle handler
   btnSoundToggle.addEventListener('click', () => {
+    if (!audioInitialized) {
+      initializeAudio();
+    }
     soundEnabled = !soundEnabled;
     btnSoundToggle.textContent = soundEnabled ? '🔊' : '🔇';
     btnSoundToggle.setAttribute('aria-label', soundEnabled ? 'Mute sound effects' : 'Enable sound effects');
+    
+    // Play a test sound when enabling
+    if (soundEnabled) {
+      playTestBeep();
+    }
   });
 
   // Effect selector handler
