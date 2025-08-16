@@ -6,6 +6,13 @@
     </linearGradient>
   </defs>
   <rect width="1600" height="900" fill="url(#sky)"/>
+  <!-- subtle clouds -->
+  <g fill="#ffffff" opacity="0.7">
+    <ellipse cx="400" cy="160" rx="90" ry="26"/>
+    <ellipse cx="470" cy="160" rx="60" ry="18"/>
+    <ellipse cx="980" cy="140" rx="100" ry="28"/>
+    <ellipse cx="1060" cy="140" rx="70" ry="20"/>
+  </g>
   <rect y="680" width="1600" height="220" fill="#9be28f"/>
   <path d="M0 720 C 300 680, 600 760, 900 720 C 1200 680, 1400 760, 1600 720 L 1600 900 L 0 900 Z" fill="#7dd67a"/>
 </svg>

@@ -6,9 +6,17 @@
     </linearGradient>
   </defs>
   <rect width="1600" height="900" fill="url(#sky)"/>
-  <path d="M0 680 L300 520 L520 680 Z" fill="#9fb6c1"/>
-  <path d="M250 680 L600 420 L950 680 Z" fill="#87a4b1"/>
-  <path d="M700 680 L1000 500 L1300 680 Z" fill="#6f8f9f"/>
-  <rect y="680" width="1600" height="220" fill="#a6df9a"/>
+  <!-- sun and clouds -->
+  <circle cx="260" cy="140" r="52" fill="#ffe48f"/>
+  <g fill="#ffffff" opacity="0.85">
+    <ellipse cx="820" cy="160" rx="90" ry="26"/>
+    <ellipse cx="890" cy="160" rx="60" ry="18"/>
+  </g>
+  <!-- mountain layers -->
+  <path d="M0 700 L280 520 L520 700 Z" fill="#a7bdc7"/>
+  <path d="M220 700 L580 420 L960 700 Z" fill="#90aab7"/>
+  <path d="M680 700 L1000 500 L1380 700 Z" fill="#7995a6"/>
+  <path d="M380 700 L720 460 L1100 700 Z" fill="#93a9b6" opacity="0.6"/>
+  <rect y="700" width="1600" height="200" fill="#a6df9a"/>
 </svg>
 

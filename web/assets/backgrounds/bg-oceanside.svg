@@ -6,7 +6,15 @@
     </linearGradient>
   </defs>
   <rect width="1600" height="900" fill="url(#sky)"/>
+  <!-- sun and clouds -->
+  <circle cx="1300" cy="160" r="56" fill="#ffd58a"/>
+  <g fill="#ffffff" opacity="0.85">
+    <ellipse cx="400" cy="160" rx="90" ry="26"/>
+    <ellipse cx="470" cy="160" rx="60" ry="18"/>
+  </g>
   <rect y="740" width="1600" height="160" fill="#f7e3c1"/>
+  <!-- waves -->
   <path d="M0 740 C 200 720, 400 760, 600 740 C 800 720, 1000 760, 1200 740 C 1400 720, 1500 760, 1600 740 L 1600 760 C 1400 780, 1200 760, 1000 780 C 800 800, 600 760, 400 780 C 200 800, 0 760, 0 760 Z" fill="#69c1f5" opacity="0.9"/>
+  <path d="M0 760 C 240 740, 480 780, 720 760 C 960 740, 1200 780, 1600 760 L 1600 770 C 1200 790, 960 770, 720 790 C 480 810, 240 770, 0 790 Z" fill="#7fcaf7" opacity="0.85"/>
 </svg>
 

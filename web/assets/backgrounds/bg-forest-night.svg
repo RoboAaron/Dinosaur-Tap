@@ -24,9 +24,8 @@
     <circle cx="1300" cy="150" r="1.5"/>
     <circle cx="1450" cy="120" r="2"/>
   </g>
-  <!-- moon -->
+  <!-- single moon -->
   <circle cx="1250" cy="180" r="36" fill="#fff7cc"/>
-  <path d="M1270 170 A36 36 0 1 1 1238 210 A28 28 0 1 0 1270 170" fill="#f5edbf"/>
   <path d="M0 710 C 300 680, 800 760, 1600 720 L 1600 900 L 0 900 Z" fill="url(#nightHill)"/>
   <rect y="720" width="1600" height="180" fill="#1e3a2e"/>
   <!-- trees -->

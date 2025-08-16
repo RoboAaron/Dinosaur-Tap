@@ -6,8 +6,16 @@
     </linearGradient>
   </defs>
   <rect width="1600" height="900" fill="url(#sky)"/>
+  <!-- sun and clouds -->
+  <circle cx="1300" cy="140" r="60" fill="#ffd58a"/>
+  <g fill="#ffffff" opacity="0.8">
+    <ellipse cx="520" cy="160" rx="90" ry="26"/>
+    <ellipse cx="590" cy="160" rx="60" ry="18"/>
+  </g>
+  <!-- dunes -->
   <rect y="680" width="1600" height="220" fill="#f7cd7a"/>
   <path d="M0 720 C 300 680, 600 760, 900 720 C 1200 680, 1400 760, 1600 720 L 1600 900 L 0 900 Z" fill="#e6b45b"/>
-  <path d="M350 720 C 370 690, 390 690, 410 720 C 390 710, 370 710, 350 720 Z" fill="#d9a44a"/>
+  <path d="M200 740 C 260 700, 340 700, 420 740 C 340 730, 260 730, 200 740 Z" fill="#d9a44a"/>
+  <path d="M900 740 C 980 700, 1080 700, 1180 740 C 1080 730, 980 730, 900 740 Z" fill="#d9a44a"/>
 </svg>
 
