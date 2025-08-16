@@ -8,45 +8,15 @@
 }
 
 /* Background Environment Classes */
-.bg-plain {
-  background: radial-gradient(1200px 400px at 50% 100%, #b3ffcc 0, #e9ffe9 60%, transparent 100%),
-              linear-gradient(180deg, #d6ffe8 0, #f6fff8 100%);
-}
-
-.bg-desert {
-  background: radial-gradient(1200px 400px at 50% 100%, #f4d03f 0, #f39c12 60%, transparent 100%),
-              linear-gradient(180deg, #f7dc6f 0, #f8c471 100%);
-}
-
-.bg-mountain {
-  background: radial-gradient(1200px 400px at 50% 100%, #95a5a6 0, #7f8c8d 60%, transparent 100%),
-              linear-gradient(180deg, #bdc3c7 0, #ecf0f1 100%);
-}
-
-.bg-forest {
-  background: radial-gradient(1200px 400px at 50% 100%, #27ae60 0, #229954 60%, transparent 100%),
-              linear-gradient(180deg, #58d68d 0, #82e0aa 100%);
-}
-
-.bg-green-plain {
-  background: radial-gradient(1200px 400px at 50% 100%, #2ecc71 0, #27ae60 60%, transparent 100%),
-              linear-gradient(180deg, #58d68d 0, #a9dfbf 100%);
-}
-
-.bg-oceanside {
-  background: radial-gradient(1200px 400px at 50% 100%, #3498db 0, #2980b9 60%, transparent 100%),
-              linear-gradient(180deg, #85c1e9 0, #d6eaf8 100%);
-}
-
-.bg-snow {
-  background: radial-gradient(1200px 400px at 50% 100%, #ecf0f1 0, #bdc3c7 60%, transparent 100%),
-              linear-gradient(180deg, #f8f9f9 0, #e8f8f5 100%);
-}
-
-.bg-sunset {
-  background: radial-gradient(1200px 400px at 50% 100%, #e74c3c 0, #c0392b 60%, transparent 100%),
-              linear-gradient(180deg, #f1948a 0, #fadbd8 100%);
-}
+.bg-plain { background-image: url('assets/backgrounds/bg-plain.svg'); background-size: cover; background-position: center; }
+.bg-desert { background-image: url('assets/backgrounds/bg-desert.svg'); background-size: cover; background-position: center; }
+.bg-mountain { background-image: url('assets/backgrounds/bg-mountain.svg'); background-size: cover; background-position: center; }
+.bg-forest { background-image: url('assets/backgrounds/bg-forest.svg'); background-size: cover; background-position: center; }
+.bg-green-plain { background-image: url('assets/backgrounds/bg-green-plain.svg'); background-size: cover; background-position: center; }
+.bg-oceanside { background-image: url('assets/backgrounds/bg-oceanside.svg'); background-size: cover; background-position: center; }
+.bg-snow { background-image: url('assets/backgrounds/bg-snow.svg'); background-size: cover; background-position: center; }
+.bg-sunset { background-image: url('assets/backgrounds/bg-sunset.svg'); background-size: cover; background-position: center; }
+.bg-volcano { background-image: url('assets/backgrounds/bg-volcano.svg'); background-size: cover; background-position: center; }
 *{box-sizing:border-box}
 html,body{height:100%}
 body{

@@ -73,7 +73,8 @@
     { name: 'Green Plain', class: 'bg-green-plain', icon: '🌿' },
     { name: 'Oceanside', class: 'bg-oceanside', icon: '🌊' },
     { name: 'Snow', class: 'bg-snow', icon: '❄️' },
-    { name: 'Sunset', class: 'bg-sunset', icon: '🌅' }
+    { name: 'Sunset', class: 'bg-sunset', icon: '🌅' },
+    { name: 'Volcano', class: 'bg-volcano', icon: '🌋' }
   ];
 
   // Track ordering and per-dino timers
