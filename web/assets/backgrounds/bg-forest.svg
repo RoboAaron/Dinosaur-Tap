@@ -4,18 +4,48 @@
       <stop offset="0%" stop-color="#dff7e6"/>
       <stop offset="100%" stop-color="#ffffff"/>
     </linearGradient>
+    <linearGradient id="hill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a7e7a2"/>
+      <stop offset="100%" stop-color="#8bd88a"/>
+    </linearGradient>
+    <linearGradient id="treeLeaf" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6cc275"/>
+      <stop offset="100%" stop-color="#4ea85b"/>
+    </linearGradient>
   </defs>
   <rect width="1600" height="900" fill="url(#sky)"/>
-  <rect y="680" width="1600" height="220" fill="#8bd88a"/>
-  <g fill="#5fb06a">
-    <rect x="150" y="560" width="26" height="120"/>
-    <polygon points="163,560 120,620 206,620"/>
-    <polygon points="163,520 130,580 196,580"/>
+  <circle cx="250" cy="160" r="60" fill="#ffe48f"/>
+  <g fill="#ffffff" opacity="0.8">
+    <ellipse cx="520" cy="160" rx="90" ry="28"/>
+    <ellipse cx="590" cy="160" rx="60" ry="20"/>
+    <ellipse cx="980" cy="140" rx="100" ry="30"/>
+    <ellipse cx="1060" cy="140" rx="70" ry="22"/>
   </g>
-  <g fill="#6cc275">
-    <rect x="340" y="540" width="24" height="140"/>
-    <polygon points="352,540 314,610 390,610"/>
-    <polygon points="352,500 322,570 382,570"/>
+  <path d="M0 710 C 300 680, 800 760, 1600 720 L 1600 900 L 0 900 Z" fill="url(#hill)"/>
+  <rect y="720" width="1600" height="180" fill="#7ed67a"/>
+  <!-- Layered trees -->
+  <g fill="url(#treeLeaf)">
+    <g transform="translate(80,0)">
+      <rect x="160" y="600" width="22" height="120" fill="#6b8a55"/>
+      <polygon points="171,600 130,660 212,660"/>
+      <polygon points="171,560 140,620 202,620"/>
+      <polygon points="171,520 150,580 192,580"/>
+    </g>
+    <g transform="translate(0,0)">
+      <rect x="360" y="620" width="20" height="100" fill="#6b8a55"/>
+      <polygon points="370,620 334,672 406,672"/>
+      <polygon points="370,586 344,638 396,638"/>
+    </g>
+    <g transform="translate(420,0)">
+      <rect x="360" y="610" width="20" height="110" fill="#6b8a55"/>
+      <polygon points="370,610 334,666 406,666"/>
+      <polygon points="370,574 344,632 396,632"/>
+    </g>
+    <g transform="translate(840,10)">
+      <rect x="360" y="610" width="20" height="110" fill="#6b8a55"/>
+      <polygon points="370,610 334,666 406,666"/>
+      <polygon points="370,574 344,632 396,632"/>
+    </g>
   </g>
 </svg>
 

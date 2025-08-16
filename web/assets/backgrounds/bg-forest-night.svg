@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="nightSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1c2b"/>
+      <stop offset="100%" stop-color="#152b3f"/>
+    </linearGradient>
+    <linearGradient id="nightHill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#244b3a"/>
+      <stop offset="100%" stop-color="#1d3c2f"/>
+    </linearGradient>
+    <linearGradient id="nightLeaf" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2e5a47"/>
+      <stop offset="100%" stop-color="#224535"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#nightSky)"/>
+  <!-- stars -->
+  <g fill="#ffffff" opacity="0.8">
+    <circle cx="220" cy="120" r="2"/>
+    <circle cx="260" cy="180" r="1.5"/>
+    <circle cx="520" cy="140" r="2"/>
+    <circle cx="820" cy="160" r="1.5"/>
+    <circle cx="980" cy="110" r="2"/>
+    <circle cx="1300" cy="150" r="1.5"/>
+    <circle cx="1450" cy="120" r="2"/>
+  </g>
+  <!-- moon -->
+  <circle cx="1250" cy="180" r="36" fill="#fff7cc"/>
+  <path d="M1270 170 A36 36 0 1 1 1238 210 A28 28 0 1 0 1270 170" fill="#f5edbf"/>
+  <path d="M0 710 C 300 680, 800 760, 1600 720 L 1600 900 L 0 900 Z" fill="url(#nightHill)"/>
+  <rect y="720" width="1600" height="180" fill="#1e3a2e"/>
+  <!-- trees -->
+  <g fill="url(#nightLeaf)">
+    <g transform="translate(80,0)">
+      <rect x="160" y="600" width="22" height="120" fill="#2b3a2c"/>
+      <polygon points="171,600 130,660 212,660"/>
+      <polygon points="171,560 140,620 202,620"/>
+      <polygon points="171,520 150,580 192,580"/>
+    </g>
+    <g transform="translate(0,0)">
+      <rect x="360" y="620" width="20" height="100" fill="#2b3a2c"/>
+      <polygon points="370,620 334,672 406,672"/>
+      <polygon points="370,586 344,638 396,638"/>
+    </g>
+    <g transform="translate(420,0)">
+      <rect x="360" y="610" width="20" height="110" fill="#2b3a2c"/>
+      <polygon points="370,610 334,666 406,666"/>
+      <polygon points="370,574 344,632 396,632"/>
+    </g>
+    <g transform="translate(840,10)">
+      <rect x="360" y="610" width="20" height="110" fill="#2b3a2c"/>
+      <polygon points="370,610 334,666 406,666"/>
+      <polygon points="370,574 344,632 396,632"/>
+    </g>
+  </g>
+</svg>
+

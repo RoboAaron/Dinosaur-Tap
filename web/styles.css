@@ -17,6 +17,7 @@
 .bg-snow { background-image: url('assets/backgrounds/bg-snow.svg'); background-size: cover; background-position: center; }
 .bg-sunset { background-image: url('assets/backgrounds/bg-sunset.svg'); background-size: cover; background-position: center; }
 .bg-volcano { background-image: url('assets/backgrounds/bg-volcano.svg'); background-size: cover; background-position: center; }
+.bg-forest-night { background-image: url('assets/backgrounds/bg-forest-night.svg'); background-size: cover; background-position: center; }
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
