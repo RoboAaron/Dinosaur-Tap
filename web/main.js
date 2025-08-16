@@ -33,6 +33,12 @@
   const btnBackground = document.getElementById('btn-background');
   let dinoElements = Array.from(document.querySelectorAll('.dino-static'));
 
+  // Debug element finding
+  console.log('Elements found:');
+  console.log('btnBackground:', btnBackground);
+  console.log('playArea:', playArea);
+  console.log('All buttons:', document.querySelectorAll('button'));
+
   // Config
   const MAX_CONCURRENT_DINOS = 10;
   const MIN_SPAWN_MS = 800;
@@ -363,6 +369,14 @@
       playScreen.classList.add('is-visible');
       homeScreen.setAttribute('aria-hidden', 'true');
       playScreen.setAttribute('aria-hidden', 'false');
+      
+      // Initialize background button when play screen is shown
+      if (btnBackground) {
+        btnBackground.textContent = BACKGROUNDS[currentBackground].icon;
+        btnBackground.setAttribute('aria-label', `Change background to ${BACKGROUNDS[(currentBackground + 1) % BACKGROUNDS.length].name}`);
+        console.log('Background button initialized with icon:', BACKGROUNDS[currentBackground].icon);
+        console.log('Current background class:', BACKGROUNDS[currentBackground].class);
+      }
     }
   }
 
@@ -1054,6 +1068,7 @@
 
   // Background change handler
   if (btnBackground) {
+    console.log('Background button found, adding click listener');
     btnBackground.addEventListener('click', () => {
       console.log('Background button clicked! Current background:', currentBackground);
       
@@ -1080,6 +1095,12 @@
       if (soundEnabled && audioInitialized) {
         playBackgroundChangeSound();
       }
+      
+      // Add visual feedback
+      btnBackground.style.transform = 'scale(0.9)';
+      setTimeout(() => {
+        btnBackground.style.transform = 'scale(1)';
+      }, 100);
     });
   } else {
     console.error('Background button element not found');
@@ -1093,15 +1114,8 @@
   // Initialize size display
   updateDinoSizes();
 
-  // Initialize background button
-  if (btnBackground) {
-    btnBackground.textContent = BACKGROUNDS[currentBackground].icon;
-    btnBackground.setAttribute('aria-label', `Change background to ${BACKGROUNDS[(currentBackground + 1) % BACKGROUNDS.length].name}`);
-    console.log('Background button initialized with icon:', BACKGROUNDS[currentBackground].icon);
-    console.log('Current background class:', BACKGROUNDS[currentBackground].class);
-  } else {
-    console.error('Background button not found during initialization');
-  }
+  // Initialize background button - will be done when play screen is shown
+  console.log('Background button element found during setup:', btnBackground);
 
   // Debug effect selector
   console.log('Effect selector element:', effectSelector);

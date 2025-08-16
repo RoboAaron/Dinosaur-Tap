@@ -72,27 +72,20 @@ body{
 }
 .score{font-size:clamp(20px, 5vw, 28px); font-weight:800}
 .size-controls{display:flex; align-items:center; gap:6px}
-.size-btn, .sound-btn{
-  min-width:32px; padding:4px 6px; font-size:16px; font-weight:bold; 
+.size-btn, .sound-btn, .background-btn{
+  min-width:40px; height:40px; padding:8px; font-size:18px; font-weight:bold; 
   appearance:none; border:none; border-radius:8px; 
   background:var(--btn); color:var(--btn-text); cursor:pointer;
-  box-shadow:0 2px 0 #0c3a25;
+  box-shadow:0 2px 0 #0c3a25; display:flex; align-items:center; justify-content:center;
 }
-.size-btn:active, .sound-btn:active{transform:translateY(1px); box-shadow:0 1px 0 #0c3a25}
+.size-btn:active, .sound-btn:active, .background-btn:active{transform:translateY(1px); box-shadow:0 1px 0 #0c3a25}
 .size-display{font-size:14px; font-weight:600; min-width:35px; text-align:center; color:#666}
 .sound-controls{display:flex; align-items:center; gap:6px}
 .effect-controls{display:flex; align-items:center; gap:4px}
 .effect-label{font-size:12px; font-weight:600; color:#666}
-.effect-selector{padding:3px 6px; border:1px solid #ccc; border-radius:4px; font-size:12px; background:white}
+.effect-selector{padding:6px 8px; border:1px solid #ccc; border-radius:6px; font-size:12px; background:white; height:40px; min-width:80px}
 
 .background-controls{display:flex; align-items:center; gap:6px}
-.background-btn{
-  min-width:40px; padding:6px 8px; font-size:18px; font-weight:bold; 
-  appearance:none; border:none; border-radius:8px; 
-  background:var(--btn); color:var(--btn-text); cursor:pointer;
-  box-shadow:0 2px 0 #0c3a25;
-}
-.background-btn:active{transform:translateY(1px); box-shadow:0 1px 0 #0c3a25}
 
 
 /* Mobile responsive adjustments */
@@ -119,16 +112,16 @@ body{
     order:5; gap:4px;
   }
   .size-btn, .sound-btn, .background-btn{
-    min-width:28px; padding:3px 5px; font-size:14px; 
+    min-width:36px; height:36px; padding:6px; font-size:16px; 
     appearance:none; border:none; border-radius:6px; 
     background:var(--btn); color:var(--btn-text);
-    box-shadow:0 1px 0 #0c3a25;
+    box-shadow:0 1px 0 #0c3a25; display:flex; align-items:center; justify-content:center;
   }
   .size-display{
     font-size:12px; min-width:30px;
   }
   .effect-selector{
-    padding:2px 4px; font-size:11px;
+    padding:4px 6px; font-size:11px; height:36px; min-width:70px;
   }
   .btn{
     padding:8px 12px; font-size:14px;
