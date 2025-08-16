@@ -22,6 +22,7 @@
   const btnPlayNormal = document.getElementById('btn-play-normal');
   const btnPlayUnlimited = document.getElementById('btn-play-unlimited');
   const btnHome = document.getElementById('btn-home');
+
   const starCounter = document.getElementById('stars');
   const playArea = document.getElementById('play-area');
   const btnSizeUp = document.getElementById('btn-size-up');
@@ -922,6 +923,8 @@
   
   btnHome.addEventListener('click', () => { stopGame(); showScreen('home'); });
 
+
+
   // Initialize audio on first user interaction
   function handleFirstInteraction() {
     initializeAudio();
@@ -1116,6 +1119,12 @@
 
   // Initialize background button - will be done when play screen is shown
   console.log('Background button element found during setup:', btnBackground);
+  
+  // Ensure play area has initial background class
+  if (playArea) {
+    playArea.classList.add(BACKGROUNDS[currentBackground].class);
+    console.log('Initial background class applied:', BACKGROUNDS[currentBackground].class);
+  }
 
   // Debug effect selector
   console.log('Effect selector element:', effectSelector);
