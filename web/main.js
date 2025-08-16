@@ -14,6 +14,7 @@
   let gameMode = 'normal'; // 'normal' or 'unlimited'
   let soundEnabled = true; // Audio toggle
   let debugMode = false; // Debug mode toggle
+  let currentBackground = 0; // Current background index
 
   // Elements
   const homeScreen = document.getElementById('screen-home');
@@ -29,6 +30,7 @@
   const btnSoundToggle = document.getElementById('btn-sound-toggle');
   const btnDebugToggle = document.getElementById('btn-debug-toggle');
   const effectSelector = document.getElementById('effect-selector');
+  const btnBackground = document.getElementById('btn-background');
   let dinoElements = Array.from(document.querySelectorAll('.dino-static'));
 
   // Config
@@ -53,6 +55,18 @@
     `assets/dino-assets/make-a-velociraptor-for-a-toddler-game (1).svg?cb=${CACHE_BUST}`,
     `assets/dino-assets/create-a-liopleurodon-for-a-toddler-game.svg?cb=${CACHE_BUST}`,
     `assets/dino-assets/create-an-ankylosaurus-for-a-toddler-game--make-su.svg?cb=${CACHE_BUST}`
+  ];
+
+  // Background environments configuration
+  const BACKGROUNDS = [
+    { name: 'Plain', class: 'bg-plain', icon: '🌱' },
+    { name: 'Desert', class: 'bg-desert', icon: '🏜️' },
+    { name: 'Mountain', class: 'bg-mountain', icon: '🏔️' },
+    { name: 'Forest', class: 'bg-forest', icon: '🌲' },
+    { name: 'Green Plain', class: 'bg-green-plain', icon: '🌿' },
+    { name: 'Oceanside', class: 'bg-oceanside', icon: '🌊' },
+    { name: 'Snow', class: 'bg-snow', icon: '❄️' },
+    { name: 'Sunset', class: 'bg-sunset', icon: '🌅' }
   ];
 
   // Track ordering and per-dino timers
@@ -308,6 +322,32 @@
       console.log('Test beep played');
     } catch (error) {
       console.error('Error playing test beep:', error);
+    }
+  }
+
+  // Background change sound function
+  function playBackgroundChangeSound() {
+    if (!audioInitialized || !audioContext) return;
+    
+    try {
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      // Play a gentle ascending note
+      oscillator.frequency.setValueAtTime(523, audioContext.currentTime); // C5 note
+      oscillator.type = 'sine';
+      
+      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.3);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.3);
+    } catch (error) {
+      console.error('Error playing background change sound:', error);
     }
   }
 
@@ -1012,6 +1052,39 @@
     console.error('Effect selector element not found');
   }
 
+  // Background change handler
+  if (btnBackground) {
+    btnBackground.addEventListener('click', () => {
+      console.log('Background button clicked! Current background:', currentBackground);
+      
+      // Remove current background class
+      const currentClass = BACKGROUNDS[currentBackground].class;
+      playArea.classList.remove(currentClass);
+      console.log('Removed class:', currentClass);
+      
+      // Move to next background
+      currentBackground = (currentBackground + 1) % BACKGROUNDS.length;
+      const newClass = BACKGROUNDS[currentBackground].class;
+      
+      // Add new background class
+      playArea.classList.add(newClass);
+      console.log('Added class:', newClass, 'for background:', BACKGROUNDS[currentBackground].name);
+      
+      // Update button icon and aria-label
+      btnBackground.textContent = BACKGROUNDS[currentBackground].icon;
+      btnBackground.setAttribute('aria-label', `Change background to ${BACKGROUNDS[(currentBackground + 1) % BACKGROUNDS.length].name}`);
+      
+      console.log('Background changed to:', BACKGROUNDS[currentBackground].name);
+      
+      // Play a subtle sound effect if sound is enabled
+      if (soundEnabled && audioInitialized) {
+        playBackgroundChangeSound();
+      }
+    });
+  } else {
+    console.error('Background button element not found');
+  }
+
 
 
   // Prevent iOS rubber-band within play area
@@ -1019,6 +1092,16 @@
 
   // Initialize size display
   updateDinoSizes();
+
+  // Initialize background button
+  if (btnBackground) {
+    btnBackground.textContent = BACKGROUNDS[currentBackground].icon;
+    btnBackground.setAttribute('aria-label', `Change background to ${BACKGROUNDS[(currentBackground + 1) % BACKGROUNDS.length].name}`);
+    console.log('Background button initialized with icon:', BACKGROUNDS[currentBackground].icon);
+    console.log('Current background class:', BACKGROUNDS[currentBackground].class);
+  } else {
+    console.error('Background button not found during initialization');
+  }
 
   // Debug effect selector
   console.log('Effect selector element:', effectSelector);

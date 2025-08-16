@@ -45,12 +45,16 @@
           </select>
         </div>
 
+        <div class="background-controls">
+          <button id="btn-background" class="btn background-btn" aria-label="Change background environment">🏔️</button>
+        </div>
+
         <div class="score" aria-live="polite" aria-label="Stars earned">
           ⭐ <span id="stars">0</span>
         </div>
       </header>
 
-      <div id="play-area" class="play-area" role="button" aria-label="Tap area">
+      <div id="play-area" class="play-area bg-plain" role="button" aria-label="Tap area">
         <div class="hint">Tap the dino!</div>
         <!-- Static dinos that are always in DOM -->
         <img id="dino-1" class="dino-static" role="button" aria-label="Dinosaur" src="" />

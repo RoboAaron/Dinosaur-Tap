@@ -6,6 +6,47 @@
   --btn:#1e6f4a;
   --btn-text:#fff;
 }
+
+/* Background Environment Classes */
+.bg-plain {
+  background: radial-gradient(1200px 400px at 50% 100%, #b3ffcc 0, #e9ffe9 60%, transparent 100%),
+              linear-gradient(180deg, #d6ffe8 0, #f6fff8 100%);
+}
+
+.bg-desert {
+  background: radial-gradient(1200px 400px at 50% 100%, #f4d03f 0, #f39c12 60%, transparent 100%),
+              linear-gradient(180deg, #f7dc6f 0, #f8c471 100%);
+}
+
+.bg-mountain {
+  background: radial-gradient(1200px 400px at 50% 100%, #95a5a6 0, #7f8c8d 60%, transparent 100%),
+              linear-gradient(180deg, #bdc3c7 0, #ecf0f1 100%);
+}
+
+.bg-forest {
+  background: radial-gradient(1200px 400px at 50% 100%, #27ae60 0, #229954 60%, transparent 100%),
+              linear-gradient(180deg, #58d68d 0, #82e0aa 100%);
+}
+
+.bg-green-plain {
+  background: radial-gradient(1200px 400px at 50% 100%, #2ecc71 0, #27ae60 60%, transparent 100%),
+              linear-gradient(180deg, #58d68d 0, #a9dfbf 100%);
+}
+
+.bg-oceanside {
+  background: radial-gradient(1200px 400px at 50% 100%, #3498db 0, #2980b9 60%, transparent 100%),
+              linear-gradient(180deg, #85c1e9 0, #d6eaf8 100%);
+}
+
+.bg-snow {
+  background: radial-gradient(1200px 400px at 50% 100%, #ecf0f1 0, #bdc3c7 60%, transparent 100%),
+              linear-gradient(180deg, #f8f9f9 0, #e8f8f5 100%);
+}
+
+.bg-sunset {
+  background: radial-gradient(1200px 400px at 50% 100%, #e74c3c 0, #c0392b 60%, transparent 100%),
+              linear-gradient(180deg, #f1948a 0, #fadbd8 100%);
+}
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
@@ -44,6 +85,15 @@ body{
 .effect-label{font-size:12px; font-weight:600; color:#666}
 .effect-selector{padding:3px 6px; border:1px solid #ccc; border-radius:4px; font-size:12px; background:white}
 
+.background-controls{display:flex; align-items:center; gap:6px}
+.background-btn{
+  min-width:40px; padding:6px 8px; font-size:18px; font-weight:bold; 
+  appearance:none; border:none; border-radius:8px; 
+  background:var(--btn); color:var(--btn-text); cursor:pointer;
+  box-shadow:0 2px 0 #0c3a25;
+}
+.background-btn:active{transform:translateY(1px); box-shadow:0 1px 0 #0c3a25}
+
 
 /* Mobile responsive adjustments */
 @media (max-width: 640px) {
@@ -65,7 +115,10 @@ body{
   .effect-label{
     display:none; /* Hide label on mobile */
   }
-  .size-btn, .sound-btn{
+  .background-controls{
+    order:5; gap:4px;
+  }
+  .size-btn, .sound-btn, .background-btn{
     min-width:28px; padding:3px 5px; font-size:14px; 
     appearance:none; border:none; border-radius:6px; 
     background:var(--btn); color:var(--btn-text);
@@ -83,9 +136,8 @@ body{
 }
 .play-area{
   position:relative; height:72vh; min-height:480px; border-radius:24px;
-  background: radial-gradient(1200px 400px at 50% 100%, #b3ffcc 0, #e9ffe9 60%, transparent 100%),
-              linear-gradient(180deg, #d6ffe8 0, #f6fff8 100%);
   overflow:hidden; display:grid; place-items:center; user-select:none;
+  transition: background 0.5s ease-in-out;
 }
 .hint{position:absolute; top:12px; left:12px; font-size:20px; opacity:.75}
 .dino{font-size:120px; filter: drop-shadow(0 6px 0 rgba(0,0,0,.12)); transform: translateZ(0);}
